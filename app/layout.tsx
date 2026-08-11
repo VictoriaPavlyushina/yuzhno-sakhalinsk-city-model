@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const title = "Южно-Сахалинск — проблемы и предлагаемые проекты";
-const description = "Интерактивная карта: от анализа городских данных — к конкретным проектным решениям.";
+const title = "Южно-Сахалинск — от данных о здоровье к проектам города";
+const description = "Интерактивная презентация портфеля городских проектов для Южно-Сахалинска.";
 
 export const metadata: Metadata = {
   title,
