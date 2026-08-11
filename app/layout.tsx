@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-const title = "Южно-Сахалинск — от данных к городским решениям";
-const description = "Интерактивная модель здоровья, устойчивости и городской среды Южно-Сахалинска.";
+const title = "Южно-Сахалинск — проблемы и предлагаемые проекты";
+const description = "Интерактивная карта: от анализа городских данных — к конкретным проектным решениям.";
 
 export const metadata: Metadata = {
   title,
   description,
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
-  openGraph: { title, description, images: [{ url: "/og.png", width: 1672, height: 941 }] },
+  openGraph: { title, description, type: "website", images: [{ url: "/og.png", width: 1536, height: 1024 }] },
   twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
 };
 
