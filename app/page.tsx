@@ -209,11 +209,11 @@ function Cover({go}:{go:(n:number)=>void}){return <div className="cover-layout">
 
 function Balance({mode,setMode}:{mode:BalanceMode;setMode:(x:BalanceMode)=>void}){
   const cards=mode==="strengths"?strengths:tensions;
-  return <div className="balance-layout">
+  return <div className={`balance-layout ${mode}`}>
     <div className="balance-head"><div className="eyebrow">01 · ПОРТРЕТ ГОРОДА · 2016–2025</div><h2>Южно‑Сахалинск растёт.<br/><em>Теперь рост должен работать<br/>на здоровье людей.</em></h2><p>У города есть экономический и природный ресурс. Главные ограничения — травматизм, хронические риски для здоровья и уязвимость природного каркаса.</p></div>
     <div className="balance-toggle" role="tablist"><button className={mode==="strengths"?"active":""} onClick={()=>setMode("strengths")}><span>01</span>Положительные характеристики</button><button className={mode==="tensions"?"active warm":""} onClick={()=>setMode("tensions")}><span>02</span>Отрицательные характеристики</button></div>
     <div className={`balance-grid ${mode}`}>{cards.map((c,i)=><article key={c.label}><span>{String(i+1).padStart(2,"0")}</span><b>{c.value} <small>{c.unit}</small></b><h3>{c.label}</h3><p>{c.note}</p></article>)}</div>
-    <div className="balance-conclusion"><b>{mode==="strengths"?"МОЖНО НАЧИНАТЬ":"ПЕРВЫЕ ДЕЙСТВИЯ"}</b><span>{mode==="strengths"?"Город может уже сейчас запустить два первых проекта: программу снижения детского травматизма и «Зелёный хребет».":"Сначала — снизить детский травматизм и проверить трассу «Зелёного хребта» инженерными изысканиями."}</span></div>
+    <div className={`balance-conclusion ${mode}`}><b>{mode==="strengths"?"МОЖНО НАЧИНАТЬ":"ПЕРВЫЕ ДЕЙСТВИЯ"}</b><span>{mode==="strengths"?"Город может уже сейчас запустить два первых проекта: программу снижения детского травматизма и «Зелёный хребет».":"Сначала — снизить детский травматизм и проверить трассу «Зелёного хребта» инженерными изысканиями."}</span></div>
   </div>;
 }
 

@@ -62,3 +62,22 @@
 .cover-orbit .orbit.one{animation-delay:-5s}
 .cover-orbit .orbit.two{animation-delay:-11s}
 .cover-orbit .orbit.three{animation-delay:-3s}
+
+/* Positive / negative city characteristics */
+.balance-toggle button{position:relative;padding-right:48px}
+.balance-toggle button:after{position:absolute;right:17px;top:50%;transform:translateY(-50%);font-size:17px;font-weight:500}
+.balance-toggle button:first-child{box-shadow:inset 4px 0 var(--green);background:rgba(160,211,173,.07);color:#c8ded0}
+.balance-toggle button:first-child:after{content:"+";color:var(--green)}
+.balance-toggle button:last-child{box-shadow:inset 4px 0 var(--warm);background:rgba(240,154,124,.07);color:#dfc2b8}
+.balance-toggle button:last-child:after{content:"−";color:var(--warm)}
+.balance-toggle button.active:first-child{background:var(--green);color:#123536;box-shadow:inset 4px 0 #d9efde}
+.balance-toggle button.active:last-child{background:var(--warm);color:#351a14;box-shadow:inset 4px 0 #ffd0c0}
+.balance-toggle button.active:after,.balance-toggle button.active span{color:inherit}
+.balance-layout.strengths .balance-head h2 em{color:var(--green)}
+.balance-layout.tensions .balance-head h2 em{color:var(--warm)}
+.balance-grid.strengths article{border-top:2px solid var(--green)}
+.balance-grid.strengths article>span{color:var(--green)}
+.balance-conclusion.strengths{border-color:var(--green)}
+.balance-conclusion.strengths b{color:var(--green)}
+.balance-conclusion.tensions{border-color:var(--warm)}
+.balance-conclusion.tensions b{color:var(--warm)}
