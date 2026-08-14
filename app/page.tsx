@@ -179,8 +179,6 @@ export default function Home(){
         <i className="partner-sep">×</i>
         <span className="atre-lockup" aria-label="Агентство трансформации и развития экономики"><span className="atre-a">А</span><b>АТРЭ</b></span>
       </button>
-      <div className="show-title">ГОРОДСКОЕ ЗДОРОВЬЕ · ПРОЕКТНЫЕ РЕШЕНИЯ</div>
-      <div className="header-actions"><button onClick={()=>setSourceOpen(true)}>ДАННЫЕ</button><button className="full" onClick={toggleFullscreen} aria-label="Полноэкранный режим"><i></i></button></div>
     </header>
 
     <nav className="chapter-rail" aria-label="Сцены презентации">
