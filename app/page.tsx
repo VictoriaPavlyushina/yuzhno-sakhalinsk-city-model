@@ -170,7 +170,15 @@ export default function Home(){
     <CityCanvas scene={current.id} project={selectedProject} axis={axis}/>
     <div className="noise"></div><div className="edge-shade"></div>
     <header className="show-header">
-      <button className="brand" onClick={()=>go(0)}><span>А</span><b>АТРЭ</b><i>×</i><em>ЮЖНО-САХАЛИНСК</em></button>
+      <button className="brand brand-lockup" onClick={()=>go(0)} aria-label="Южно-Сахалинск, АСИ и АТРЭ — перейти в начало">
+        <strong className="city-brand">ЮЖНО-САХАЛИНСК</strong>
+        <i className="partner-sep">×</i>
+        <span className="asi-lockup" aria-label="Агентство стратегических инициатив">
+          <span className="asi-mark" aria-hidden="true"><i></i><i></i><i></i></span><b>АСИ</b>
+        </span>
+        <i className="partner-sep">×</i>
+        <span className="atre-lockup" aria-label="Агентство трансформации и развития экономики"><span className="atre-a">А</span><b>АТРЭ</b></span>
+      </button>
       <div className="show-title">ГОРОДСКОЕ ЗДОРОВЬЕ · ПРОЕКТНЫЕ РЕШЕНИЯ</div>
       <div className="header-actions"><button onClick={()=>setSourceOpen(true)}>ДАННЫЕ</button><button className="full" onClick={toggleFullscreen} aria-label="Полноэкранный режим"><i></i></button></div>
     </header>
