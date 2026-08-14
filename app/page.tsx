@@ -2,28 +2,68 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-type RidgeTab = "route" | "engineering" | "economy";
+type BalanceMode = "strengths" | "tensions";
+type ChildTab = "scale" | "cost" | "program";
+type RidgeTab = "role" | "route" | "economy" | "conditions";
 type Axis = "all" | "a" | "c";
 
 const scenes = [
   { id: "cover", label: "Начало" },
-  { id: "signals", label: "Что увидели" },
-  { id: "child", label: "Детский травматизм" },
-  { id: "child-project", label: "Безопасный город" },
-  { id: "water", label: "Климат и вода" },
-  { id: "portfolio", label: "Портфель проектов" },
+  { id: "balance", label: "Портрет города" },
+  { id: "projects", label: "Проекты" },
+  { id: "child", label: "Детская безопасность" },
   { id: "ridge", label: "Зелёный хребет" },
-  { id: "decision", label: "Решение" },
+  { id: "next", label: "Следующие шаги" },
+];
+
+const strengths = [
+  { value: "317,6", unit: "млрд ₽", label: "объём экономики в 2025 году", note: "+78% к 2017 году" },
+  { value: "×5,4", unit: "", label: "рост инвестиций на человека", note: "2016–2024" },
+  { value: "5,2%", unit: "", label: "уровень бедности", note: "почти вдвое ниже 2016 года" },
+  { value: "282,9", unit: "тыс.", label: "размещённых туристов", note: "почти вдвое больше, чем в 2016" },
+  { value: "339→148", unit: "", label: "снижение числа ДТП", note: "2016–2025" },
+  { value: "99,8%", unit: "", label: "питьевой воды соответствует нормам", note: "защитный фактор здоровья" },
+  { value: "+918", unit: "га", label: "озеленённых территорий", note: "2019–2024" },
+  { value: "89,7%", unit: "", label: "занимаются спортом", note: "2025 год" },
+];
+
+const tensions = [
+  { value: "22,7%", unit: "", label: "жителей старше трудоспособного возраста", note: "+2,8 п.п. за период" },
+  { value: "1 263→192", unit: "чел.", label: "сокращение естественного прироста", note: "2016–2024" },
+  { value: "+2,8°C", unit: "", label: "рост среднегодовой температуры", note: "2016–2025" },
+  { value: "104", unit: "мм/сутки", label: "экстремум осадков", note: "2023 год, режим ЧС" },
+  { value: "55%", unit: "", label: "территории покрыто ливневой сетью", note: "износ сети — 45,5%" },
+  { value: "+72%", unit: "", label: "болезни системы кровообращения", note: "заболеваемость взрослых" },
+  { value: "265,4", unit: "на 1 000", label: "детский травматизм", note: "2025 год" },
+  { value: "29–30", unit: "детей", label: "средняя наполняемость классов", note: "риск перегрузки школ" },
 ];
 
 const projects = [
-  { id: "safe", no: "01", name: "Безопасный город для детей", short: "Безопасный город", x: 35, y: 60, problem: "Город знает масштаб травматизма, но не знает конкретные места.", output: "Карта травм → аудит hotspots → адресные микропроекты.", next: "Получить обезличенные адресные данные и запустить пилот." },
-  { id: "framework", no: "02", name: "Градоэкологический каркас", short: "Градоэкокаркас", x: 57, y: 45, problem: "Парки, реки, леса и новые районы существуют разрозненно.", output: "Единая рельефно-гидрологическая схема природных связей.", next: "Собрать цифровую модель рельефа, водосборов и разрывов." },
-  { id: "rivers", no: "03", name: "16 рек — одна система", short: "16 рек", x: 48, y: 31, problem: "Из 16 водотоков мастер-планом явно охвачены только четыре.", output: "Паспорта водосборов и 5–7 проектов первой очереди.", next: "Рогатка, Еланька, Сусуя, Красносельская, Уюновка, Придорожный." },
-  { id: "boulevards", no: "04", name: "Экобульвары и зелёные улицы", short: "Экобульвары", x: 41, y: 72, problem: "Улицы быстро передают воду в ливневую систему и реки.", output: "Биоканавы, дождевые сады, тень и связные маршруты.", next: "Проверить пр. Мира, Сахалинскую, Горького, Украинскую и Ленина." },
-  { id: "renovation", no: "05", name: "Экореновация промтерриторий", short: "Экореновация", x: 27, y: 39, problem: "Твёрдые покрытия усиливают пиковый и загрязнённый сток.", output: "Водный баланс площадок, зелёные буферы и биоретенция.", next: "Пилот в узле пр. Мира — ул. Украинская." },
-  { id: "north", no: "06", name: "Северная долина", short: "Северная долина", x: 42, y: 19, problem: "Новая застройка может усилить сток и разорвать природные коридоры.", output: "Районные правила воды, зелени и пешеходной связности.", next: "Закрепить требования в проектах девелоперов и КРТ." },
-  { id: "ridge", no: "07", name: "Зелёный хребет", short: "Зелёный хребет", x: 70, y: 50, problem: "Рекреационные объекты и склоновые риски требуют общего решения.", output: "12,55 км маршрутов + локальная работа со стоком + связность.", next: "DEM и изыскания → пилот оси A → проверка эффекта." },
+  {
+    id: "ridge",
+    no: "01",
+    name: "Зелёный хребет",
+    type: "ФЛАГМАН · РЕКРЕАЦИЯ + ЗАЩИТА",
+    problem: "Связать город с восточными склонами и совместить маршрут с управлением стоком и природными рисками.",
+    output: "12,51 км двух осей, входные узлы, водоотвод, переходы, лесовосстановление и туристический продукт.",
+    next: "DEM и изыскания → уточнение трассы → пилот городской оси A.",
+    scene: 4,
+  },
+  {
+    id: "safe",
+    no: "02",
+    name: "Безопасный город для детей",
+    type: "ФЛАГМАН · ЗДОРОВЬЕ + СРЕДА",
+    problem: "Почти каждый третий ребёнок получает травму, но город пока не видит адреса и обстоятельства случаев.",
+    output: "Единый реестр, карта рисков, аудит среды и адресные изменения дворов, школ, дорог и зон спорта.",
+    next: "Обезличенные данные → пилотные территории → стандарт безопасной среды.",
+    scene: 3,
+  },
+  { id: "framework", no: "03", name: "Градоэкологический каркас", type: "СИСТЕМА", problem: "Природные территории и проекты разобщены.", output: "Общегородская рельефно-гидрологическая схема.", next: "Цифровая модель, карта конфликтов и приоритетов." },
+  { id: "rivers", no: "04", name: "16 рек — одна система", type: "ВОДА", problem: "Водотоки рассматриваются фрагментарно.", output: "Паспорта 16 водосборов и 5–7 проектов первой очереди.", next: "Рогатка, Еланька, Сусуя, Красносельская, Уюновка, Придорожный." },
+  { id: "boulevards", no: "05", name: "Экобульвары", type: "УЛИЦЫ", problem: "Улицы ускоряют сток и перегреваются.", output: "Тень, биоканавы, дождевые сады и связные маршруты.", next: "Мира, Сахалинская, Горького, Украинская, Ленина." },
+  { id: "north", no: "06", name: "Северная долина", type: "РАЙОН", problem: "Новая застройка может усилить сток и разорвать зелёные связи.", output: "Водно-зелёный контур и требования к девелоперам.", next: "Мастер-схема и дорожная карта 2026–2029." },
+  { id: "renewal", no: "07", name: "Экореновация промтерриторий", type: "КРТ", problem: "Твёрдые покрытия усиливают загрязнённый сток.", output: "Водные паспорта, зелёные буферы и биоретенция.", next: "Пилот: проспект Мира — улица Украинская." },
 ];
 
 const axisA = [[142.7602,46.9250],[142.7630,46.9241],[142.7657,46.9225],[142.7687,46.9246],[142.7728,46.9287],[142.7725,46.9310],[142.7721,46.9359],[142.7737,46.9400],[142.7728,46.9434],[142.7711,46.9457],[142.7710,46.9504],[142.7705,46.9534],[142.7763,46.9589],[142.7715,46.9615],[142.7703,46.9660],[142.7686,46.9707],[142.7648,46.9745],[142.7634,46.9786],[142.7610,46.9816],[142.7602,46.9868],[142.7572,46.9880]];
@@ -43,69 +83,51 @@ function CityCanvas({ scene, project, axis }: { scene: string; project: string; 
     const draw = (now: number) => {
       const rect = canvas.getBoundingClientRect();
       const dpr = Math.min(devicePixelRatio || 1, 2);
-      canvas.width = Math.round(rect.width * dpr);
-      canvas.height = Math.round(rect.height * dpr);
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const w = rect.width, h = rect.height;
-      const t = (now - started) / 1000;
-      const point = (x:number,y:number) => [x*w,y*h] as const;
-      const poly = (pts:number[][], close=false) => { ctx.beginPath(); pts.forEach(([x,y],i)=>{const [px,py]=point(x,y); if(i)ctx.lineTo(px,py);else ctx.moveTo(px,py);}); if(close)ctx.closePath(); };
-      const routePoint = ([lon,lat]:number[]) => [.56+((lon-142.744)/.123)*.39,.10+((46.999-lat)/.09)*.78];
+      const w = rect.width, h = rect.height, t = (now - started) / 1000;
+      const point = (x: number, y: number) => [x * w, y * h] as const;
+      const poly = (pts: number[][], close = false) => { ctx.beginPath(); pts.forEach(([x,y],i) => { const [px,py] = point(x,y); if (i) ctx.lineTo(px,py); else ctx.moveTo(px,py); }); if (close) ctx.closePath(); };
+      const routePoint = ([lon,lat]: number[]) => [.56 + ((lon - 142.744) / .123) * .39, .10 + ((46.999 - lat) / .09) * .78];
 
+      ctx.clearRect(0,0,w,h);
       const bg = ctx.createRadialGradient(w*.72,h*.45,0,w*.72,h*.45,w*.8);
       bg.addColorStop(0,"#174748"); bg.addColorStop(.55,"#0e3435"); bg.addColorStop(1,"#082425");
-      ctx.fillStyle=bg; ctx.fillRect(0,0,w,h);
+      ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-      ctx.strokeStyle="rgba(171,218,188,.11)"; ctx.lineWidth=.9;
-      for(let i=0;i<23;i++){
-        ctx.beginPath();
-        for(let p=0;p<=1;p+=.025){
-          const x=.57+p*.55;
-          const y=.02+i*.045+Math.sin(p*9+i*.7)*(.012+i*.0008);
-          const [px,py]=point(x,y); if(p)ctx.lineTo(px,py);else ctx.moveTo(px,py);
-        }
-        ctx.stroke();
-      }
+      ctx.strokeStyle = "rgba(171,218,188,.10)"; ctx.lineWidth = .9;
+      for (let i=0;i<23;i++) { ctx.beginPath(); for (let p=0;p<=1;p+=.025) { const x=.57+p*.55; const y=.02+i*.045+Math.sin(p*9+i*.7)*(.012+i*.0008); const [px,py]=point(x,y); if(p)ctx.lineTo(px,py);else ctx.moveTo(px,py); } ctx.stroke(); }
 
       const city=[[.10,.11],[.53,.08],[.62,.18],[.61,.89],[.47,.96],[.08,.88],[.045,.55],[.07,.22]];
-      poly(city,true); ctx.fillStyle="rgba(236,240,225,.035)";ctx.fill();ctx.strokeStyle="rgba(218,232,215,.15)";ctx.stroke();
+      poly(city,true); ctx.fillStyle="rgba(236,240,225,.035)"; ctx.fill(); ctx.strokeStyle="rgba(218,232,215,.15)"; ctx.stroke();
       ctx.strokeStyle="rgba(222,235,222,.09)";ctx.lineWidth=.65;
       for(let i=0;i<21;i++){const x=.09+i*.024;poly([[x,.12+(i%3)*.01],[x+.018,.9-(i%4)*.016]]);ctx.stroke();}
       for(let i=0;i<25;i++){const y=.15+i*.029;poly([[.06,y],[.61,y+Math.sin(i*.8)*.009]]);ctx.stroke();}
-      ctx.strokeStyle="rgba(230,238,226,.2)";ctx.lineWidth=1.35;poly([[.20,.08],[.22,.94]]);ctx.stroke();poly([[.06,.52],[.62,.49]]);ctx.stroke();poly([[.34,.08],[.35,.93]]);ctx.stroke();
+      ctx.strokeStyle="rgba(230,238,226,.2)";ctx.lineWidth=1.35;poly([[.20,.08],[.22,.94]]);ctx.stroke();poly([[.06,.52],[.62,.49]]);ctx.stroke();
 
-      const rivers=[[[.07,.22],[.23,.23],[.39,.28],[.61,.23],[.91,.17]],[[.04,.37],[.22,.41],[.42,.38],[.67,.39],[.96,.34]],[[.04,.52],[.19,.55],[.38,.58],[.68,.55],[.97,.49]],[[.07,.68],[.25,.70],[.46,.72],[.72,.68],[.98,.62]],[[.16,.08],[.20,.31],[.18,.58],[.23,.92]],[[.48,.06],[.45,.29],[.50,.52],[.46,.82]]];
-      rivers.forEach((r,i)=>{poly(r);ctx.strokeStyle=scene==="water"||project==="rivers"?`rgba(74,211,207,${.72-i*.05})`:"rgba(73,171,177,.23)";ctx.lineWidth=scene==="water"||project==="rivers"?2.2:1; if(scene==="water"||project==="rivers"){ctx.setLineDash([9,8]);ctx.lineDashOffset=-t*18;}ctx.stroke();ctx.setLineDash([]);});
+      const rivers=[[[.07,.22],[.23,.23],[.39,.28],[.61,.23],[.91,.17]],[[.04,.37],[.22,.41],[.42,.38],[.67,.39],[.96,.34]],[[.04,.52],[.19,.55],[.38,.58],[.68,.55],[.97,.49]],[[.07,.68],[.25,.70],[.46,.72],[.72,.68],[.98,.62]],[[.16,.08],[.20,.31],[.18,.58],[.23,.92]]];
+      rivers.forEach((r,i)=>{poly(r);ctx.strokeStyle=scene==="projects"&&project==="rivers"?`rgba(74,211,207,${.72-i*.05})`:"rgba(73,171,177,.24)";ctx.lineWidth=scene==="projects"&&project==="rivers"?2.2:1;ctx.stroke();});
 
-      const greenAssets=[[.29,.39],[.39,.58],[.56,.35],[.66,.55],[.49,.78]];
-      greenAssets.forEach(([x,y],i)=>{const [px,py]=point(x,y);ctx.beginPath();ctx.ellipse(px,py,30+i*3,18+i,0,0,Math.PI*2);ctx.fillStyle="rgba(156,207,166,.12)";ctx.fill();});
-      if(project==="framework"||scene==="decision"){
-        ctx.strokeStyle="rgba(68,205,193,.75)";ctx.lineWidth=2;ctx.setLineDash([5,7]);greenAssets.forEach((a,i)=>{if(i<greenAssets.length-1){poly([a,greenAssets[i+1]]);ctx.stroke();}});ctx.setLineDash([]);
+      if(scene==="balance") {
+        [[.17,.23],[.30,.65],[.45,.31],[.53,.72]].forEach(([x,y],i)=>{const [px,py]=point(x,y);ctx.beginPath();ctx.arc(px,py,15+Math.sin(t*2+i)*4,0,Math.PI*2);ctx.strokeStyle=i%2?"rgba(240,154,124,.28)":"rgba(57,194,190,.28)";ctx.stroke();});
       }
-
-      if(scene==="child"){
-        ctx.fillStyle="rgba(240,154,124,.20)";
-        for(let x=.09;x<.60;x+=.025)for(let y=.13;y<.89;y+=.026){if((Math.round(x*100)+Math.round(y*100))%3===0){const[px,py]=point(x,y);ctx.beginPath();ctx.arc(px,py,1.1,0,Math.PI*2);ctx.fill();}}
+      if(scene==="child") {
+        ctx.fillStyle="rgba(240,154,124,.18)";
+        for(let x=.08;x<.59;x+=.024)for(let y=.12;y<.88;y+=.027){if((Math.round(x*100)+Math.round(y*100))%3===0){const[px,py]=point(x,y);ctx.beginPath();ctx.arc(px,py,1.15,0,Math.PI*2);ctx.fill();}}
+        const scan=(t*.15)%1;const [sx]=point(.08+scan*.51,0);ctx.fillStyle="rgba(57,194,190,.18)";ctx.fillRect(sx,0,2,h);
       }
-      if(scene==="child-project"){
-        const scan=(t*.17)%1;const [sx]=point(.08+scan*.52,0);ctx.fillStyle="rgba(57,194,190,.12)";ctx.fillRect(sx,0,2,h);
-        ctx.strokeStyle="rgba(57,194,190,.22)";ctx.lineWidth=1;
-        [[.18,.26],[.30,.46],[.44,.32],[.52,.66],[.24,.74]].forEach(([x,y],i)=>{const[px,py]=point(x,y);ctx.beginPath();ctx.arc(px,py,9+Math.sin(t*2+i)*3,0,Math.PI*2);ctx.stroke();});
+      if(scene==="projects"&&project){
+        const p=projects.find(x=>x.id===project); const locs:Record<string,[number,number]>={ridge:[.72,.51],safe:[.34,.61],framework:[.54,.45],rivers:[.46,.31],boulevards:[.40,.73],north:[.39,.19],renewal:[.27,.39]};
+        const loc=locs[p?.id??"framework"]; if(loc){const[px,py]=point(...loc);ctx.beginPath();ctx.arc(px,py,19+Math.sin(t*3)*5,0,Math.PI*2);ctx.strokeStyle="rgba(57,194,190,.7)";ctx.lineWidth=2;ctx.stroke();}
       }
-      if(scene==="portfolio"&&project){
-        const p=projects.find(x=>x.id===project);if(p){const[px,py]=point(p.x/100,p.y/100);const halo=18+Math.sin(t*3)*5;ctx.beginPath();ctx.arc(px,py,halo,0,Math.PI*2);ctx.strokeStyle="rgba(57,194,190,.65)";ctx.lineWidth=2;ctx.stroke();}
-      }
-
-      if(scene==="ridge"){
+      if(scene==="ridge") {
         poly(ridgeBoundary.map(routePoint),true);ctx.fillStyle="rgba(68,205,193,.055)";ctx.fill();ctx.strokeStyle="rgba(151,218,171,.48)";ctx.lineWidth=1.3;ctx.setLineDash([6,6]);ctx.stroke();ctx.setLineDash([]);
         const progress=Math.min(1,(now-started)/1200);
         const drawRoute=(coords:number[][],color:string,muted:boolean)=>{const pts=coords.map(routePoint);const n=Math.max(2,Math.ceil(pts.length*progress));poly(pts.slice(0,n));ctx.strokeStyle=muted?color.replace("1)",".18)"):color;ctx.lineWidth=muted?3:5;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor=color;ctx.shadowBlur=muted?0:12;ctx.stroke();ctx.shadowBlur=0;};
         drawRoute(axisA,"rgba(57,194,190,1)",axis==="c");drawRoute(axisC,"rgba(240,164,91,1)",axis==="a");
-        if(progress>.8){[[.59,.16],[.61,.23],[.63,.57],[.62,.76]].forEach(([x,y],i)=>{const[px,py]=point(x,y);ctx.beginPath();ctx.arc(px,py,5,0,Math.PI*2);ctx.fillStyle="#f5f4ea";ctx.fill();ctx.strokeStyle=i===0?"#39c2be":"#173536";ctx.lineWidth=2;ctx.stroke();});}
-      }
-
-      if(scene==="signals"){
-        const center=[.50,.50];[[.24,.24],[.27,.72],[.73,.22],[.77,.72]].forEach(([x,y],i)=>{poly([center,[x,y]]);ctx.strokeStyle=i<2?"rgba(240,154,124,.36)":"rgba(57,194,190,.36)";ctx.lineWidth=1;ctx.stroke();});
       }
       raf=requestAnimationFrame(draw);
     };
@@ -117,12 +139,12 @@ function CityCanvas({ scene, project, axis }: { scene: string; project: string; 
 
 export default function Home(){
   const [index,setIndex]=useState(0);
-  const [selectedProject,setSelectedProject]=useState("framework");
-  const [ridgeTab,setRidgeTab]=useState<RidgeTab>("route");
+  const [balanceMode,setBalanceMode]=useState<BalanceMode>("strengths");
+  const [selectedProject,setSelectedProject]=useState("ridge");
+  const [childTab,setChildTab]=useState<ChildTab>("scale");
+  const [ridgeTab,setRidgeTab]=useState<RidgeTab>("role");
   const [axis,setAxis]=useState<Axis>("all");
-  const [scenario,setScenario]=useState("base");
   const [sourceOpen,setSourceOpen]=useState(false);
-  const [childLayer,setChildLayer]=useState("школы");
   const current=scenes[index];
 
   const go=useCallback((next:number)=>setIndex(Math.max(0,Math.min(scenes.length-1,next))),[]);
@@ -136,12 +158,12 @@ export default function Home(){
       if(e.key==="End")go(scenes.length-1);
       if(e.key.toLowerCase()==="f")toggleFullscreen();
       if(e.key==="Escape"){setSourceOpen(false);setAxis("all");}
-      const n=Number(e.key);if(n>=1&&n<=8)go(n-1);
+      const n=Number(e.key);if(n>=1&&n<=6)go(n-1);
     };
     window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey);
   },[go,index,toggleFullscreen]);
 
-  const selected=useMemo(()=>projects.find(x=>x.id===selectedProject)??projects[1],[selectedProject]);
+  const selected=useMemo(()=>projects.find(x=>x.id===selectedProject)??projects[0],[selectedProject]);
   return <main className={`mayor-show scene-${current.id}`}>
     <CityCanvas scene={current.id} project={selectedProject} axis={axis}/>
     <div className="noise"></div><div className="edge-shade"></div>
@@ -155,13 +177,11 @@ export default function Home(){
 
     <section className="scene-wrap" key={current.id}>
       {current.id==="cover"&&<Cover go={go}/>} 
-      {current.id==="signals"&&<Signals go={go}/>} 
-      {current.id==="child"&&<ChildStory go={go}/>} 
-      {current.id==="child-project"&&<ChildProject layer={childLayer} setLayer={setChildLayer}/>} 
-      {current.id==="water"&&<WaterStory go={go}/>} 
-      {current.id==="portfolio"&&<Portfolio selected={selected} setSelected={setSelectedProject} go={go}/>} 
-      {current.id==="ridge"&&<Ridge tab={ridgeTab} setTab={setRidgeTab} axis={axis} setAxis={setAxis} scenario={scenario} setScenario={setScenario}/>} 
-      {current.id==="decision"&&<Decision go={go}/>} 
+      {current.id==="balance"&&<Balance mode={balanceMode} setMode={setBalanceMode}/>} 
+      {current.id==="projects"&&<ProjectPortfolio selected={selected} setSelected={setSelectedProject} go={go}/>} 
+      {current.id==="child"&&<ChildDetail tab={childTab} setTab={setChildTab}/>} 
+      {current.id==="ridge"&&<RidgeDetail tab={ridgeTab} setTab={setRidgeTab} axis={axis} setAxis={setAxis}/>} 
+      {current.id==="next"&&<NextSteps go={go}/>} 
     </section>
 
     <footer className="show-controls"><div className="progress"><span style={{width:`${((index+1)/scenes.length)*100}%`}}></span></div><button disabled={index===0} onClick={()=>go(index-1)}>←</button><div><b>{String(index+1).padStart(2,"0")} / {String(scenes.length).padStart(2,"0")}</b><span>{current.label}</span></div><button disabled={index===scenes.length-1} onClick={()=>go(index+1)}>→</button><small>СТРЕЛКИ · ПРОБЕЛ · F — FULLSCREEN</small></footer>
@@ -170,20 +190,63 @@ export default function Home(){
   </main>;
 }
 
-function Cover({go}:{go:(n:number)=>void}){return <div className="cover-layout"><div className="cover-copy"><div className="eyebrow">ИНТЕРАКТИВНАЯ РАБОЧАЯ ВЕРСИЯ · 2026</div><h1>От данных<br/>о здоровье —<br/><em>к проектам города</em></h1><p>Мы посмотрели на статистику, среду и мастер‑план Южно‑Сахалинска. Результат — не ещё один отчёт, а первый портфель конкретных решений.</p><div className="cover-actions"><button className="primary" onClick={()=>go(1)}>Начать показ <span>→</span></button><button onClick={()=>go(6)}>Сразу к флагману</button></div></div><div className="cover-orbit"><div className="orbit one"><span>ЗДОРОВЬЕ</span></div><div className="orbit two"><span>СРЕДА</span></div><div className="orbit three"><span>ПРОЕКТЫ</span></div><div className="orbit-core"><b>7</b><span>проектных<br/>решений</span></div></div></div>}
+function Cover({go}:{go:(n:number)=>void}){return <div className="cover-layout"><div className="cover-copy"><div className="eyebrow">ИНТЕРАКТИВНАЯ РАБОЧАЯ ВЕРСИЯ · 2026</div><h1>От данных<br/>о здоровье —<br/><em>к проектам города</em></h1><p>Мы посмотрели на статистику, среду и мастер‑план Южно‑Сахалинска. Результат — не ещё один отчёт, а первый портфель конкретных решений.</p><div className="cover-actions"><button className="primary" onClick={()=>go(1)}>Начать показ <span>→</span></button><button onClick={()=>go(4)}>Сразу к флагману</button></div></div><div className="cover-orbit"><div className="orbit one"><span>ЗДОРОВЬЕ</span></div><div className="orbit two"><span>СРЕДА</span></div><div className="orbit three"><span>ПРОЕКТЫ</span></div><div className="orbit-core"><b>7</b><span>проектных<br/>решений</span></div></div></div>}
 
-function Signals({go}:{go:(n:number)=>void}){const cards=[{n:"255,2",u:"на 1 000 детей",t:"первичная заболеваемость по травмам · 2025",tone:"warm"},{n:"104 мм",u:"за сутки",t:"максимум осадков · 2023",tone:"teal"},{n:"+2,8 °C",u:"за 2016–2025",t:"изменение средней температуры",tone:"teal"},{n:"16",u:"городских водотоков",t:"но общая система пока не собрана",tone:"green"}];return <div className="signals-layout"><div className="scene-heading"><div className="eyebrow">01 · ДИАГНОЗ</div><h2>Мы нашли не только болезни.<br/><em>Мы нашли городские задачи.</em></h2><p>Часть рисков формируется там, где человек встречается с улицей, водой, рельефом и качеством общественных пространств.</p></div><div className="signal-cluster">{cards.map((c,i)=><button key={c.n} className={`signal-card ${c.tone}`} onClick={()=>go(i===0?2:4)}><span>0{i+1}</span><b>{c.n}</b><small>{c.u}</small><p>{c.t}</p><i>ПОКАЗАТЬ СВЯЗАННУЮ ЗАДАЧУ →</i></button>)}</div><div className="integrity-note"><b>ПРОВЕРКА ДАННЫХ</b><span>Старый вывод о росте смертности взрослых от травм исключён: расширенный ответ Минздрава содержит обновлённый ряд.</span></div></div>}
+function Balance({mode,setMode}:{mode:BalanceMode;setMode:(x:BalanceMode)=>void}){
+  const cards=mode==="strengths"?strengths:tensions;
+  return <div className="balance-layout">
+    <div className="balance-head"><div className="eyebrow">01 · ПОРТРЕТ ГОРОДА · 2016–2025</div><h2>Город стал сильнее.<br/><em>Нагрузка изменила форму.</em></h2><p>Развитие создаёт ресурс для действий — и одновременно усиливает цену промедления.</p></div>
+    <div className="balance-toggle" role="tablist"><button className={mode==="strengths"?"active":""} onClick={()=>setMode("strengths")}><span>01</span>Положительные характеристики</button><button className={mode==="tensions"?"active warm":""} onClick={()=>setMode("tensions")}><span>02</span>Отрицательные характеристики</button></div>
+    <div className={`balance-grid ${mode}`}>{cards.map((c,i)=><article key={c.label}><span>{String(i+1).padStart(2,"0")}</span><b>{c.value} <small>{c.unit}</small></b><h3>{c.label}</h3><p>{c.note}</p></article>)}</div>
+    <div className="balance-conclusion"><b>{mode==="strengths"?"РЕСУРС":"УПРАВЛЕНЧЕСКИЙ ВЫВОД"}</b><span>{mode==="strengths"?"Экономика, бюджет, туризм и инфраструктура позволяют перейти от диагностики к пилотным проектам.":"Главные точки напряжения — состояние среды для детей, климатическая адаптация и рост хронических заболеваний."}</span></div>
+  </div>;
+}
 
-function ChildStory({go}:{go:(n:number)=>void}){return <div className="child-layout"><div className="child-copy"><div className="eyebrow warm">02 · ПРИОРИТЕТ ЗДОРОВЬЯ</div><h2>Почти каждый третий ребёнок</h2><p className="lead">7 159 уникальных детей с непреднамеренной травмой за расчётный год — около 29% детской популяции 0–14 лет.</p><div className="rate"><b>255,2</b><span>на 1 000 детей<br/>первичная заболеваемость · 2025</span></div><button className="primary warm-button" onClick={()=>go(3)}>Превратить проблему в проект <span>→</span></button></div><div className="child-cost"><div className="cost-total"><span>РАСЧЁТНАЯ ЦЕНА ПРОБЛЕМЫ</span><b>122,1</b><em>млн ₽ / год</em></div><div className="cost-bar"><i style={{width:"24.7%"}}></i><b style={{width:"75.3%"}}></b></div><div className="cost-legend"><div><i></i><b>30,1 млн ₽</b><span>медицинская помощь</span></div><div><i></i><b>92,0 млн ₽</b><span>время родителей и опекунов</span></div></div><div className="geo-gap"><span>КЛЮЧЕВОЙ ПРОБЕЛ</span><b>Географии случаев пока нет.</b><p>Нельзя честно показать hotspots — сначала нужно связать случай, место и элемент городской среды.</p></div></div></div>}
+function ProjectPortfolio({selected,setSelected,go}:{selected:typeof projects[number];setSelected:(x:string)=>void;go:(n:number)=>void}){
+  return <div className="projects-layout">
+    <div className="projects-head"><div className="eyebrow">02 · ПРЕДЛАГАЕМЫЕ ПРОЕКТЫ</div><h2>Два флагмана.<br/><em>Пять системных проектов.</em></h2></div>
+    <div className="project-catalog">
+      {projects.map((p,i)=><button key={p.id} className={`${selected.id===p.id?"active":""} ${i<2?"flagship":""}`} onClick={()=>setSelected(p.id)}><span>{p.no}</span><div><small>{p.type}</small><b>{p.name}</b></div>{i<2&&<em>ФЛАГМАН</em>}</button>)}
+    </div>
+    <article className="project-focus" key={selected.id}><div className="focus-kicker"><span>ПРОЕКТ {selected.no}</span><b>{selected.type}</b></div><h3>{selected.name}</h3><div className="focus-row"><small>ЗАДАЧА</small><p>{selected.problem}</p></div><div className="focus-row"><small>РЕЗУЛЬТАТ</small><p>{selected.output}</p></div><div className="focus-row"><small>ПЕРВЫЙ ШАГ</small><p>{selected.next}</p></div>{selected.scene!==undefined&&<button className="primary" onClick={()=>go(selected.scene!)}>Открыть проект <span>→</span></button>}</article>
+    <div className="portfolio-thesis"><b>ОДНА ЛОГИКА</b><span>здоровье людей</span><i>→</i><span>качество среды</span><i>→</i><span>экономика города</span></div>
+  </div>;
+}
 
-function ChildProject({layer,setLayer}:{layer:string;setLayer:(x:string)=>void}){const layers=["школы","дворы","дороги","спорт","рекреация"];return <div className="child-project-layout"><div className="scan-label"><span>СХЕМА БУДУЩЕГО СЛОЯ</span><b>НЕ ФАКТИЧЕСКИЕ HOTSPOTS</b></div><article className="project-panel"><div className="eyebrow">ПРОЕКТ 01</div><h2>Безопасный город<br/>для детей</h2><p>От статистики травм — к адресным изменениям городской среды.</p><div className="project-flow">{["СЛУЧАЙ","МЕСТО","ПРИЧИНА","HOTSPOT","МЕРА"].map((x,i)=><span key={x}>{x}{i<4&&<i>→</i>}</span>)}</div><small>КАКОЙ СЛОЙ ПРОВЕРЯЕМ?</small><div className="layer-switch">{layers.map(x=><button key={x} className={layer===x?"active":""} onClick={()=>setLayer(x)}>{x}</button>)}</div><div className="project-result"><div><b>01</b><span>карта травм</span></div><div><b>02</b><span>топ опасных мест</span></div><div><b>03</b><span>аудит среды</span></div><div><b>04</b><span>микропроекты</span></div></div></article><div className="data-request"><span>ЧТО НУЖНО ОТ ГОРОДА</span><b>Обезличенный адрес случая + тип травмы + контекст</b><p>Это следующий продаваемый этап: цифровая карта детской безопасности и проектные паспорта приоритетных участков.</p></div></div>}
+function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
+  return <div className="detail-layout child-detail">
+    <div className="detail-title"><div className="eyebrow warm">03 · ФЛАГМАН 01</div><h2>Безопасный<br/>город <em>для детей</em></h2><p>Не медицинская кампания, а городская программа снижения числа первых травм.</p></div>
+    <div className="detail-panel">
+      <div className="detail-tabs"><button className={tab==="scale"?"active":""} onClick={()=>setTab("scale")}>МАСШТАБ</button><button className={tab==="cost"?"active":""} onClick={()=>setTab("cost")}>ЦЕНА</button><button className={tab==="program"?"active":""} onClick={()=>setTab("program")}>ПРОГРАММА</button></div>
+      {tab==="scale"&&<div className="child-scale"><div className="mega"><b>8 391</b><span>случай травм у детей 0–14 лет · 2025</span></div><div className="metric-row"><div><b>265,4</b><span>на 1 000 детей</span></div><div><b>×8</b><span>к уровню 2016 года</span></div><div><b>3 810</b><span>падений · 45% случаев</span></div><div><b>101</b><span>транспортная травма</span></div></div><div className="benchmark"><span>2023 · НА 1 000 ДЕТЕЙ</span><div><b style={{width:"100%"}}>Южно‑Сахалинск · 192,7</b><i style={{width:"57%"}}>Россия · 109,9</i></div></div><p className="data-note">Ступенчатый рост может частично отражать изменение учёта. Но после скачка показатель продолжил расти — проблему нельзя списать только на методику.</p></div>}
+      {tab==="cost"&&<div className="child-economy"><div className="mega warm-number"><b>122,1</b><span>млн ₽ совокупных потерь за год</span></div><div className="loss-bar"><i style={{width:"24.7%"}}><b>30,1</b><span>медицина</span></i><em style={{width:"75.3%"}}><b>92,0</b><span>время родителей</span></em></div><div className="impact-grid"><div><b>7 159</b><span>уникальных детей · 29% популяции</span></div><div><b>12,2 тыс.</b><span>человеко-дней медицинских контактов</span></div><div><b>49 лет</b><span>жизни с инвалидностью · YLD</span></div><div><b>3 : 1</b><span>косвенные потери к прямым</span></div></div><p className="data-note">Это ежегодный «налог небезопасности» на семьи, работодателей и здравоохранение — при нулевой смертности в расчётной модели.</p></div>}
+      {tab==="program"&&<div className="child-program"><div className="program-chain">{[{n:"01",t:"Данные",p:"Обезличенный случай + место + обстоятельство"},{n:"02",t:"Карта риска",p:"Школы, дворы, дороги, спорт и рекреация"},{n:"03",t:"Аудит",p:"Причина в конкретном элементе среды"},{n:"04",t:"Микропроект",p:"Быстрое физическое изменение территории"},{n:"05",t:"Стандарт",p:"Правила для всего города и мониторинг"}].map((x,i)=><div key={x.n}><span>{x.n}</span><b>{x.t}</b><p>{x.p}</p>{i<4&&<i>→</i>}</div>)}</div><div className="program-output"><b>ПЕРВЫЙ ПРОДУКТ</b><span>Паспорт пилотных территорий: где травмируются дети, почему это происходит, какая мера нужна, кто отвечает и как измеряется эффект.</span></div><div className="truth-note"><b>ВАЖНО</b><span>Географии случаев в исходных данных нет. Любая карта hotspots до получения адресной привязки была бы выдумкой.</span></div></div>}
+    </div>
+  </div>;
+}
 
-function WaterStory({go}:{go:(n:number)=>void}){return <div className="water-layout"><div className="scene-heading"><div className="eyebrow">03 · КЛИМАТ И ВОДА</div><h2>Город стоит<br/><em>между склоном и низменностью</em></h2><p>Вода идёт с восточных склонов через малые реки, улицы и новые районы. Сейчас решения существуют отдельно — значит, риск передаётся дальше по рельефу.</p></div><div className="water-metrics"><div><b>104 мм</b><span>суточный максимум · 2023</span></div><div><b>800 мм</b><span>осадков в год · мастер‑план</span></div><div><b>5 месяцев</b><span>устойчивого снежного покрова</span></div></div><div className="slope-chain"><span>СУСУНАЙСКИЙ ХРЕБЕТ</span><i>→</i><span>16 ВОДОТОКОВ</span><i>→</i><span>УЛИЦЫ И РАЙОНЫ</span><i>→</i><span>СУСУЯ</span></div><button className="portfolio-call" onClick={()=>go(5)}><span>ОТ ОТДЕЛЬНЫХ ОБЪЕКТОВ</span><b>к единой системе проектов</b><i>→</i></button></div>}
+function RidgeDetail({tab,setTab,axis,setAxis}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void}){
+  return <div className="detail-layout ridge-detail">
+    <div className="detail-title ridge-copy"><div className="eyebrow">04 · ФЛАГМАН 02</div><h2>Зелёный<br/><em>хребет</em></h2><p>Не отдельная тропа, а природно‑рекреационный каркас: маршрут, вода, лес и экономика в одном проекте.</p><div className="axis-legend"><button className={axis==="all"?"active":""} onClick={()=>setAxis("all")}>ВСЯ СИСТЕМА</button><button className={axis==="a"?"active":""} onClick={()=>setAxis("a")}><i></i>ОСЬ A</button><button className={axis==="c"?"active orange":""} onClick={()=>setAxis("c")}><i></i>ОСЬ C</button></div></div>
+    <div className="detail-panel ridge-info">
+      <div className="detail-tabs four"><button className={tab==="role"?"active":""} onClick={()=>setTab("role")}>РОЛЬ</button><button className={tab==="route"?"active":""} onClick={()=>setTab("route")}>ТРАССА</button><button className={tab==="economy"?"active":""} onClick={()=>setTab("economy")}>ЭКОНОМИКА</button><button className={tab==="conditions"?"active":""} onClick={()=>setTab("conditions")}>УСЛОВИЯ</button></div>
+      {tab==="role"&&<div className="ridge-role"><div className="mega"><b>4 функции</b><span>одного городского проекта</span></div><div className="role-grid"><article><span>01</span><b>Связность</b><p>Уюновка, парк Гагарина, Ботанический сад, площади Победы и Славы, улица Больничная.</p></article><article><span>02</span><b>Рекреация</b><p>Круглогодичная городская ось, треккинг, спорт, видовые и событийные сценарии.</p></article><article><span>03</span><b>Вода и склон</b><p>Локальный перехват стока, водоотвод, укреплённые переходы и противоэрозионные меры.</p></article><article><span>04</span><b>Экономика</b><p>Связный туристический продукт увеличивает время пребывания и спрос на городские услуги.</p></article></div></div>}
+      {tab==="route"&&<div className="ridge-route"><div className="mega"><b>12,51 км</b><span>две оси по обновлённой трассировке</span></div><div className="axis-cards"><article><span>ОСЬ A · ГОРОДСКАЯ</span><b>8,68 км</b><p>21,69 тыс. м² покрытия · 289 опор света · 6,07 км свейлов · 10 запруд · 10 выявленных пересечений.</p></article><article className="orange"><span>ОСЬ C · ГРЕБНЕВАЯ</span><b>3,83 км</b><p>Грунтовая тропа · 77 водоотводов · 2 видовые площадки · спортивный и мониторинговый маршрут.</p></article></div><div className="capacity"><b>5 358 м³</b><span>эффективная инженерная ёмкость за дождь</span><em>Это локальная стабилизация, а не защита города от всего тайфунного стока.</em></div></div>}
+      {tab==="economy"&&<div className="ridge-economy"><div className="capex"><span>ПОЛНЫЙ CAPEX · ЦЕНЫ 2026</span><b>314,2–782,7 млн ₽</b><small>эксплуатация: 18,0–40,2 млн ₽ в год</small></div><div className="econ-grid"><article><span>СЕЛЕЗАЩИТА · БАЗОВЫЙ СЦЕНАРИЙ</span><b>+232,0 млн ₽</b><p>NPV · BCR 1,78 · чистый эффект 49,44 млн ₽/год</p></article><article><span>ВКЛАД ТРОПЫ · 2030</span><b>133,0 млн ₽</b><p>полная ВДС в год · прямые расходы 86,9 млн ₽</p></article><article><span>БЮДЖЕТ ГОРОДА · 2030</span><b>6,2 млн ₽</b><p>собственный расчётный вклад тропы в год</p></article></div><div className="truth-note"><b>ГРАНИЦА МОДЕЛИ</b><span>9,58 млрд ₽ прямых расходов относятся ко всей системе «Горный воздух» + «Долина Айна», а не к одной тропе. Вклад самой тропы рассчитан отдельно и требует проверки турпотоком.</span></div></div>}
+      {tab==="conditions"&&<div className="ridge-conditions"><div className="mega"><b>7 проверок</b><span>до инвестиционного решения</span></div><ol><li>Цифровая модель рельефа, уклоны, водосборы и линии стока.</li><li>Инженерно‑геологические, гидрологические и лесопатологические изыскания.</li><li>Корректировка оси C по водоразделу — исключить верховья Рогатки.</li><li>Полевая проверка всех мостов, логов и водопропусков оси A.</li><li>Расчёт пиковых расходов и переноса риска вниз по склону.</li><li>Отдельный бюджет лесовосстановления и круглогодичного содержания.</li><li>Мониторинг осадков, наносов, деформаций и посещаемости.</li></ol><div className="warning-line"><b>0,32%</b><span>инженерной ёмкости от расчётного стока при 120 мм. Основную работу должны выполнять лес, почвы и вся система водосбора.</span></div></div>}
+    </div>
+    <a className="source-map-link" href="/ridge-routes.png" target="_blank" rel="noreferrer">ОТКРЫТЬ ИСХОДНУЮ СХЕМУ ТРАССИРОВКИ ↗</a>
+  </div>;
+}
 
-function Portfolio({selected,setSelected,go}:{selected:typeof projects[number];setSelected:(x:string)=>void;go:(n:number)=>void}){return <div className="portfolio-layout"><div className="portfolio-title"><div className="eyebrow">04 · ПОРТФЕЛЬ</div><h2>Семь проектов.<br/><em>Одна логика города.</em></h2></div><div className="project-map-labels">{projects.map(p=><button key={p.id} className={selected.id===p.id?"active":""} style={{left:`${p.x}%`,top:`${p.y}%`}} onClick={()=>setSelected(p.id)}><span>{p.no}</span><b>{p.short}</b></button>)}</div><nav className="portfolio-list">{projects.map(p=><button key={p.id} className={selected.id===p.id?"active":""} onClick={()=>setSelected(p.id)}><span>{p.no}</span>{p.short}</button>)}</nav><article className="portfolio-card" key={selected.id}><div className="card-number">ПРОЕКТ {selected.no}</div><h3>{selected.name}</h3><div><small>КАКУЮ ПРОБЛЕМУ РЕШАЕТ</small><p>{selected.problem}</p></div><div><small>ЧТО ПОЛУЧАЕТ ГОРОД</small><p>{selected.output}</p></div><div><small>СЛЕДУЮЩИЙ ШАГ</small><p>{selected.next}</p></div>{selected.id==="ridge"&&<button className="primary" onClick={()=>go(6)}>Открыть флагман <span>→</span></button>}</article></div>}
+function NextSteps({go}:{go:(n:number)=>void}){
+  return <div className="next-layout"><div className="eyebrow">05 · ИТОГИ И ДАЛЬНЕЙШИЕ ШАГИ</div><h2>Не выбирать между<br/><em>здоровьем и развитием.</em></h2><p className="next-lead">Собрать два флагманских пилота и общую систему данных, чтобы решения одновременно улучшали качество жизни, устойчивость и экономику города.</p>
+    <div className="decision-band"><article><span>РЕШЕНИЕ 01</span><b>Детская безопасность</b><p>Открыть обезличенный контур данных и выбрать пилотные территории для аудита.</p></article><article><span>РЕШЕНИЕ 02</span><b>Зелёный хребет</b><p>Запустить DEM и изыскания, уточнить трассу и подготовить пилот оси A.</p></article><article><span>ОБЩАЯ ОСНОВА</span><b>Городская модель</b><p>Связать показатели здоровья, рельеф, воду, проекты и измеримые эффекты.</p></article></div>
+    <div className="roadmap"><div><span>0–3 МЕС.</span><b>Данные и технические задания</b><p>Соглашения, наборы данных, периметр пилотов, владельцы решений.</p></div><i>→</i><div><span>3–6 МЕС.</span><b>Паспорта пилотов</b><p>Карта рисков, концепции, стоимость, эффекты, ограничения.</p></div><i>→</i><div><span>6–12 МЕС.</span><b>Первые изменения на земле</b><p>Микропроекты детской безопасности и пилотный участок маршрута.</p></div><i>→</i><div><span>ПОСЛЕ ЗАПУСКА</span><b>Измерение результата</b><p>Травмы, посещаемость, сток, содержание, экономика и обратная связь.</p></div></div>
+    <div className="final-line"><b>ПРЕДЛАГАЕМЫЙ СЛЕДУЮЩИЙ ШАГ</b><span>Рабочая сессия города и проектной команды: утвердить два пилота, данные и план упаковки.</span><button onClick={()=>go(0)}>ВЕРНУТЬСЯ В НАЧАЛО ↺</button></div>
+  </div>;
+}
 
-function Ridge({tab,setTab,axis,setAxis,scenario,setScenario}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void;scenario:string;setScenario:(x:string)=>void}){const scenarios:Record<string,{name:string;npv:string;bcr:string;note:string}>={conservative:{name:"Консервативный",npv:"−270,4 млн ₽",bcr:"BCR 0,37",note:"Максимальный CAPEX и сниженный эффект"},base:{name:"Базовый",npv:"+232,0 млн ₽",bcr:"BCR 1,78",note:"Расчётный базовый сценарий"},optimistic:{name:"Оптимистичный",npv:"+834,8 млн ₽",bcr:"BCR 6,09",note:"Минимальный CAPEX и усиленный эффект"}};return <div className="ridge-layout"><div className="ridge-title"><div className="eyebrow">05 · ФЛАГМАН</div><h2>Зелёный<br/>хребет</h2><p>Не отдельная тропа, а природно‑рекреационный каркас: маршрут, локальная работа с водой и связность территории.</p><div className="kml-badge"><span>KML</span><b>предварительная трассировка<br/>28.07.2026</b></div></div><article className="ridge-panel"><div className="ridge-tabs">{(["route","engineering","economy"] as const).map(x=><button key={x} className={tab===x?"active":""} onClick={()=>setTab(x)}>{x==="route"?"МАРШРУТ":x==="engineering"?"ИНЖЕНЕРИЯ":"ЭКОНОМИКА"}</button>)}</div>{tab==="route"&&<div className="route-tab"><div className="hero-number"><b>12,55 км</b><span>оси A + C</span></div><div className="axis-buttons"><button className={axis==="a"?"active":""} onClick={()=>setAxis(axis==="a"?"all":"a")}><b>A</b><span>8,72 км · городская</span><small>Уюновка → Гагарина → Ботсад → Больничная</small></button><button className={axis==="c"?"active orange":""} onClick={()=>setAxis(axis==="c"?"all":"c")}><b>C</b><span>3,83 км · гребневая</span><small>треккинг → виды → верх «Горного воздуха»</small></button></div></div>}{tab==="engineering"&&<div className="engineering-tab"><div className="hero-number"><b>5 386 м³</b><span>эффективная ёмкость за дождь</span></div><div className="engineering-grid"><div><b>11</b><span>выявленных пересечений</span></div><div><b>6,11 км</b><span>террас‑свейлов</span></div><div><b>10</b><span>каскадных запруд</span></div><div><b>77</b><span>водоотводных нарезок</span></div></div><div className="honest-note"><b>ВАЖНО</b><span>При сценарии 120 мм сооружения удерживают около 0,32% стока. Основной объём должны держать лес и почвы — лесовосстановление критично.</span></div></div>}{tab==="economy"&&<div className="economy-tab"><div className="capex-line"><span>ПОЛНЫЙ CAPEX</span><b>281,6–698,8 млн ₽</b></div><div className="scenario-switch">{Object.entries(scenarios).map(([key,s])=><button key={key} className={scenario===key?"active":""} onClick={()=>setScenario(key)}><span>{s.name}</span><b>{s.npv}</b></button>)}</div><div className={`scenario-result ${scenario}`}><span>{scenarios[scenario].note}</span><b>{scenarios[scenario].npv}</b><em>{scenarios[scenario].bcr}</em><small>Селезащитный компонент · 25 лет · ставка 8%</small></div><p className="tourism-caveat">9,58 млрд ₽ туристических расходов — контекст всей системы «Горный воздух» + «Долина Айна», а не эффект одного хребта.</p></div>}</article><a className="source-map-link" href="/ridge-routes.png" target="_blank">ОТКРЫТЬ ИСХОДНУЮ СХЕМУ ↗</a></div>}
-
-function Decision({go}:{go:(n:number)=>void}){return <div className="decision-layout"><div className="eyebrow">06 · СЛЕДУЮЩЕЕ РЕШЕНИЕ</div><h2>От аналитики —<br/><em>к двум пилотам</em></h2><p className="decision-lead">Чтобы работа не осталась концепцией, сейчас достаточно принять три управленческих решения.</p><div className="decision-cards"><article><span>01</span><h3>Выбрать пилоты</h3><p>«Безопасный город для детей» и «Зелёный хребет» — один социальный и один пространственный проект.</p></article><article><span>02</span><h3>Открыть данные</h3><p>Обезличенная география травм, DEM, водосборы, инженерные ограничения и владельцы проектов.</p></article><article><span>03</span><h3>Упаковать реализацию</h3><p>Проектные паспорта, точная карта, CAPEX, эффекты, приоритеты и дорожная карта.</p></article></div><div className="closing"><b>Результат</b><span>не перечень аналитических выводов, а первый портфель конкретных городских решений.</span><button onClick={()=>go(5)}>Вернуться к портфелю ↗</button></div></div>}
-
-function SourceDrawer({close}:{close:()=>void}){return <div className="drawer"><button className="drawer-bg" onClick={close} aria-label="Закрыть"></button><aside><button className="drawer-close" onClick={close}>ЗАКРЫТЬ ×</button><div className="eyebrow">ИСТОЧНИКИ И ДОСТОВЕРНОСТЬ</div><h2>Что лежит<br/>под моделью</h2><div className="source-groups"><section><b>ИСХОДНЫЕ ДАННЫЕ</b><p>Свод показателей Стандарта. Расширенный запрос Минздрава по травматизму и смертности.</p></section><section><b>АНАЛИТИКА</b><p>Пять справок: экономика, здоровье, градоэкологический каркас, «Зелёный хребет», потери от детского травматизма.</p></section><section><b>РАСЧЁТНЫЕ МОДЕЛИ</b><p>Потери от травм, стоимость и сток, селезащитный эффект, туристическая экономика.</p></section><section><b>ПРОСТРАНСТВО</b><p>KML Восточной рекреационной зоны и схема трассировки осей A и C.</p></section></div><div className="status-key"><span><i className="fact"></i>ФАКТ</span><span><i className="calc"></i>РАСЧЁТ</span><span><i className="concept"></i>КОНЦЕПЦИЯ</span></div><div className="source-warning"><b>УЧТЕНО В ВЕРСИИ</b><p>Обновлённый ряд Минздрава имеет приоритет над старым текстом по смертности взрослых от травм. География детских случаев не моделируется. Туристический эффект не приписывается целиком «Зелёному хребту».</p></div></aside></div>}
+function SourceDrawer({close}:{close:()=>void}){
+  return <div className="drawer"><button className="drawer-bg" onClick={close} aria-label="Закрыть"></button><aside><button className="drawer-close" onClick={close}>ЗАКРЫТЬ ×</button><div className="eyebrow">ИСТОЧНИКИ И ГРАНИЦЫ</div><h2>На чём построен показ</h2><div className="source-groups"><section><b>ОСНОВНОЙ ИСТОЧНИК · 13.08.2026</b><p>«Социально‑экономическое развитие и состояние здоровья населения г. Южно‑Сахалинска, 2016–2025 гг.»: городская статистика, смертность, заболеваемость, рекомендации и приложения по проектам.</p></section><section><b>ДЕТСКИЙ ТРАВМАТИЗМ</b><p>Уточнённые данные Минздрава Сахалинской области и расчёт потерь за базовый 2024 год: медицина, время родителей и YLD.</p></section><section><b>ЗЕЛЁНЫЙ ХРЕБЕТ</b><p>KML от 12.08.2026, расчёт стоимости и эксплуатации от 13.08.2026, модели селезащитных и туристических эффектов.</p></section><section><b>ПРОЕКТНАЯ РАМКА</b><p>Анализ мастер‑плана и концепция градоэкологического каркаса: 16 водотоков, экобульвары, Северная долина и экореновация.</p></section></div><div className="source-warning"><b>ЧЕСТНОСТЬ ИНТЕРПРЕТАЦИИ</b><p>Уточнённый ряд показывает снижение смертности взрослых от внешних причин. Карты фактических hotspots детских травм нет. Экономика тропы и селезащиты — модель порядка величины, которая требует изысканий и полевой верификации.</p></div></aside></div>;
+}
