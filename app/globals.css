@@ -56,3 +56,9 @@
 .scene-wrap{inset:124px 0 74px}
 @media(max-width:1180px){.chapter-rail{display:flex;justify-content:flex-start;padding:0 12px;overflow-x:auto;scrollbar-width:none}.chapter-rail::-webkit-scrollbar{display:none}.chapter-rail button{min-width:116px}.chapter-step>i{margin:0 5px}}
 @media(max-width:760px){.chapter-rail{top:58px;height:48px;padding:0 10px}.chapter-rail button{height:32px;min-width:110px;padding:0 10px}.chapter-rail b{font-size:6.5px}.scene-wrap{inset:106px 0 62px}}
+
+/* Keep every moving point precisely on its own orbit */
+.cover-orbit .orbit:before,.cover-orbit .orbit.two:before,.cover-orbit .orbit.three:before{top:-4px;right:auto;bottom:auto;left:calc(50% - 4px)}
+.cover-orbit .orbit.one{animation-delay:-5s}
+.cover-orbit .orbit.two{animation-delay:-11s}
+.cover-orbit .orbit.three{animation-delay:-3s}
