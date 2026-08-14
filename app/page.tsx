@@ -183,7 +183,14 @@ export default function Home(){
       <div className="header-actions"><button onClick={()=>setSourceOpen(true)}>ДАННЫЕ</button><button className="full" onClick={toggleFullscreen} aria-label="Полноэкранный режим"><i></i></button></div>
     </header>
 
-    <nav className="chapter-rail" aria-label="Сцены презентации">{scenes.map((s,i)=><button key={s.id} className={i===index?"active":""} onClick={()=>go(i)}><span>{String(i+1).padStart(2,"0")}</span><b>{s.label}</b></button>)}</nav>
+    <nav className="chapter-rail" aria-label="Сцены презентации">
+      {scenes.map((s,i)=><div className="chapter-step" key={s.id}>
+        <button className={i===index?"active":""} onClick={()=>go(i)} aria-current={i===index?"step":undefined}>
+          <span>{String(i+1).padStart(2,"0")}</span><b>{s.label}</b>
+        </button>
+        {i<scenes.length-1&&<i aria-hidden="true">→</i>}
+      </div>)}
+    </nav>
 
     <section className="scene-wrap" key={current.id}>
       {current.id==="cover"&&<Cover go={go}/>} 
