@@ -205,7 +205,7 @@ export default function Home(){
   </main>;
 }
 
-function Cover({go}:{go:(n:number)=>void}){return <div className="cover-layout"><div className="cover-copy"><h1>От данных<br/>о здоровье —<br/><em>к проектам города</em></h1><p>Мы посмотрели на статистику, среду и мастер‑план Южно‑Сахалинска. Результат — не ещё один отчёт, а первый портфель конкретных решений.</p><div className="cover-actions"><button className="primary" onClick={()=>go(1)}>Начать показ <span>→</span></button><button onClick={()=>go(4)}>Сразу к флагману</button></div></div><div className="cover-orbit"><div className="orbit one"><span>ЗДОРОВЬЕ</span></div><div className="orbit two"><span>СРЕДА</span></div><div className="orbit three"><span>ПРОЕКТЫ</span></div><div className="orbit-core"><b>7</b><span>проектных<br/>решений</span></div></div></div>}
+function Cover({go}:{go:(n:number)=>void}){return <div className="cover-layout"><div className="cover-copy"><h1>От данных<br/>о здоровье —<br/><em>к проектам города</em></h1><p>Результаты апробации Стандарта здоровьеформирующей среды</p><div className="cover-actions"><button className="primary" onClick={()=>go(1)}>Начать показ <span>→</span></button><button onClick={()=>go(4)}>Сразу к флагману</button></div></div><div className="cover-orbit"><div className="orbit one"><span>ЗДОРОВЬЕ</span></div><div className="orbit two"><span>СРЕДА</span></div><div className="orbit three"><span>ПРОЕКТЫ</span></div><div className="orbit-core"><b>7</b><span>проектных<br/>решений</span></div></div></div>}
 
 function Balance({mode,setMode}:{mode:BalanceMode;setMode:(x:BalanceMode)=>void}){
   const cards=mode==="strengths"?strengths:tensions;
