@@ -249,3 +249,7 @@
 .cover-orbit .project-node.p3:after{right:18px;left:auto;top:15px;bottom:auto;transform:none}
 .cover-orbit .project-node.p4:after{right:18px;left:auto;bottom:15px;transform:none}
 .cover-orbit .project-node.p5:after{left:18px;bottom:15px;transform:none}
+
+.balance-conclusion{width:min(390px,100%)}
+.balance-conclusion b{font-size:8px;letter-spacing:.12em}
+.balance-conclusion span{font-size:9.5px;line-height:1.52}
