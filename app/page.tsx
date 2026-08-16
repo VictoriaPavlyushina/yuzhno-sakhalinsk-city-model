@@ -188,7 +188,10 @@ export default function Home(){
           {i<scenes.length-1&&<i aria-hidden="true">→</i>}
         </div>)}
       </nav>
-      <a className="report-download" href="/Сводная_справка_Южно-Сахалинск_2016-2025.docx" download><span>Скачать отчёт</span><i aria-hidden="true">↓</i></a>
+      <div className="header-downloads">
+        <a className="report-download" href="/Сводная_справка_Южно-Сахалинск_2016-2025.docx" download><span>Скачать отчёт</span><i aria-hidden="true">↓</i></a>
+        <a className="report-download data-download" href="/Данные_и_KML_Зеленый_хребет.zip" download><span>Скачать данные и KML</span><i aria-hidden="true">↓</i></a>
+      </div>
     </header>
 
     <section className="scene-wrap" key={current.id}>

@@ -43,7 +43,7 @@
 
 /* Horizontal chapter flow */
 .show-header{grid-template-columns:1fr}
-.report-download{position:absolute;right:28px;top:15px;height:40px;padding:0 14px 0 16px;display:flex;align-items:center;gap:18px;border:1px solid rgba(115,200,198,.5);background:rgba(10,44,45,.88);color:var(--ink);text-decoration:none;font-size:8px;font-weight:600;letter-spacing:.1em;transition:background .25s,color .25s,transform .25s}.report-download i{width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:var(--teal);color:#062829;font-size:12px;font-style:normal}.report-download:hover{background:var(--teal);color:#062829;transform:translateY(-1px)}.report-download:hover i{background:#062829;color:var(--teal)}
+.header-downloads{position:absolute;right:28px;top:15px;display:flex;align-items:center;gap:7px}.report-download{height:40px;padding:0 12px 0 14px;display:flex;align-items:center;gap:13px;border:1px solid rgba(115,200,198,.5);background:rgba(10,44,45,.88);color:var(--ink);text-decoration:none;font-size:7px;font-weight:600;letter-spacing:.08em;white-space:nowrap;transition:background .25s,color .25s,transform .25s}.report-download i{width:20px;height:20px;display:grid;place-items:center;border-radius:50%;background:var(--teal);color:#062829;font-size:12px;font-style:normal}.report-download.data-download{border-color:rgba(229,160,111,.55)}.report-download.data-download i{background:var(--warm)}.report-download:hover{background:var(--teal);color:#062829;transform:translateY(-1px)}.report-download.data-download:hover{background:var(--warm)}.report-download:hover i{background:#062829;color:var(--teal)}.report-download.data-download:hover i{color:var(--warm)}
 .chapter-rail{position:absolute;z-index:36;left:0;right:0;top:70px;width:auto;height:54px;padding:0 28px;transform:none;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:0;background:rgba(7,30,31,.82);border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
 .chapter-step{display:flex;align-items:center;min-width:0}
 .chapter-step>i{margin:0 8px;color:rgba(57,194,190,.72);font-size:11px;font-style:normal;line-height:1}
@@ -57,7 +57,8 @@
 .scene-wrap{inset:124px 0 74px}
 @media(max-width:1180px){.chapter-rail{display:flex;justify-content:flex-start;padding:0 12px;overflow-x:auto;scrollbar-width:none}.chapter-rail::-webkit-scrollbar{display:none}.chapter-rail button{min-width:116px}.chapter-step>i{margin:0 5px}}
 @media(max-width:760px){.chapter-rail{top:58px;height:48px;padding:0 10px}.chapter-rail button{height:32px;min-width:110px;padding:0 10px}.chapter-rail b{font-size:6.5px}.scene-wrap{inset:106px 0 62px}}
-@media(max-width:760px){.report-download{right:10px;top:10px;height:38px;padding:0 9px}.report-download span{display:none}.report-download i{width:22px;height:22px}.brand-lockup{padding-right:48px}}
+@media(max-width:1100px){.header-downloads{right:12px}.report-download{padding:0 8px}.report-download span{display:none}.report-download i{width:22px;height:22px}}
+@media(max-width:760px){.header-downloads{right:10px;top:10px;gap:5px}.report-download{height:38px;padding:0 7px}.brand-lockup{padding-right:92px}}
 
 /* Keep every moving point precisely on its own orbit */
 .cover-orbit .orbit:before,.cover-orbit .orbit.two:before,.cover-orbit .orbit.three:before{top:-4px;right:auto;bottom:auto;left:calc(50% - 4px)}
