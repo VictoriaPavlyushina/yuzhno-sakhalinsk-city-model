@@ -239,3 +239,13 @@
 @media(max-width:1200px){.balance-groups{grid-template-columns:.9fr 1.25fr .9fr}.balance-group article{padding:9px}.balance-group article>b{font-size:20px}.balance-group h3{font-size:7px}}
 @media(max-width:960px){.balance-groups{width:100%;margin-top:24px;grid-template-columns:1fr}.balance-group{min-height:240px}.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.balance-group article{min-height:125px}}
 @media(max-width:560px){.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div,.balance-groups.strengths .group-urban>div,.balance-groups.tensions .group-health>div{grid-template-columns:1fr}.balance-group{min-height:0}}
+
+/* Fixed project constellation: nodes stay on the project orbit and labels are always visible. */
+.cover-orbit .orbit.three{animation:none}
+.cover-orbit .project-node{animation:none}
+.cover-orbit .project-node:after{opacity:1;max-width:145px;padding:5px 7px;border:1px solid rgba(115,200,198,.34);background:rgba(8,36,37,.94);color:var(--ink);font-size:6.5px;line-height:1.25;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.cover-orbit .project-node.p1:after{left:20px;bottom:50%;transform:translateY(50%)}
+.cover-orbit .project-node.p2:after{left:18px;top:15px;bottom:auto;transform:none}
+.cover-orbit .project-node.p3:after{right:18px;left:auto;top:15px;bottom:auto;transform:none}
+.cover-orbit .project-node.p4:after{right:18px;left:auto;bottom:15px;transform:none}
+.cover-orbit .project-node.p5:after{left:18px;bottom:15px;transform:none}
