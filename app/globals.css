@@ -191,3 +191,13 @@
 .ridge-conclusion-grid span{font-size:7px;letter-spacing:.07em}
 .ridge-conclusion-grid p{font-size:8px;line-height:1.42;margin-top:9px}
 @media(max-width:1180px){.ridge-conclusion-grid span{font-size:6.4px}.ridge-conclusion-grid p{font-size:7.2px}}
+
+/* Larger typography in the trail usage scenarios */
+.trail-scenarios-modal>header span{font-size:9px}
+.axis-heading>span{font-size:9px}.axis-heading>b{font-size:27px}.axis-heading>small{font-size:9px}
+.season-grid span{font-size:8px}.season-grid b{font-size:14px}.season-grid p{font-size:9px;line-height:1.48}
+.axis-rule b{font-size:8px}.axis-rule span{font-size:9px;line-height:1.46}
+.scenario-spine span{font-size:8px}.scenario-spine b{font-size:10px}
+.scenario-metrics>article>span{font-size:8px}.scenario-metrics>article>p{font-size:9px;line-height:1.42}.scenario-metrics>article>i{font-size:7.5px}
+.scenario-metrics .effect small{font-size:8px;line-height:1.35}
+.trail-scenarios-modal>footer b{font-size:8px}.trail-scenarios-modal>footer span{font-size:10px;line-height:1.48}.trail-scenarios-modal>footer small{font-size:8px;line-height:1.45}
