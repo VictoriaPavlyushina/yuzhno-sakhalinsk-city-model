@@ -16,25 +16,31 @@ const scenes = [
 ];
 
 const strengths = [
-  { value: "317,6", unit: "млрд ₽", label: "объём экономики в 2025 году", note: "+78% к 2017 году" },
-  { value: "×5,4", unit: "", label: "рост инвестиций на человека", note: "2016–2024" },
-  { value: "5,2%", unit: "", label: "уровень бедности", note: "почти вдвое ниже 2016 года" },
-  { value: "282,9", unit: "тыс.", label: "размещённых туристов", note: "почти вдвое больше, чем в 2016" },
-  { value: "339→148", unit: "", label: "снижение числа ДТП", note: "2016–2025" },
-  { value: "99,8%", unit: "", label: "питьевой воды соответствует нормам", note: "защитный фактор здоровья" },
-  { value: "+918", unit: "га", label: "озеленённых территорий", note: "2019–2024" },
-  { value: "89,7%", unit: "", label: "занимаются спортом", note: "2025 год" },
+  { group: "health", value: "5,2%", unit: "", label: "уровень бедности", note: "почти вдвое ниже 2016 года" },
+  { group: "health", value: "89,7%", unit: "", label: "занимаются спортом", note: "2025 год" },
+  { group: "urban", value: "317,6", unit: "млрд ₽", label: "объём экономики в 2025 году", note: "+78% к 2017 году" },
+  { group: "urban", value: "×5,4", unit: "", label: "рост инвестиций на человека", note: "2016–2024" },
+  { group: "urban", value: "282,9", unit: "тыс.", label: "размещённых туристов", note: "почти вдвое больше, чем в 2016" },
+  { group: "urban", value: "339→148", unit: "", label: "снижение числа ДТП", note: "2016–2025" },
+  { group: "ecology", value: "99,8%", unit: "", label: "питьевой воды соответствует нормам", note: "защитный фактор здоровья" },
+  { group: "ecology", value: "+918", unit: "га", label: "озеленённых территорий", note: "2019–2024" },
 ];
 
 const tensions = [
-  { value: "22,7%", unit: "", label: "жителей старше трудоспособного возраста", note: "+2,8 п.п. за период" },
-  { value: "1 263→192", unit: "чел.", label: "сокращение естественного прироста", note: "2016–2024" },
-  { value: "+2,8°C", unit: "", label: "рост среднегодовой температуры", note: "2016–2025" },
-  { value: "104", unit: "мм/сутки", label: "экстремум осадков", note: "2023 год, режим ЧС" },
-  { value: "55%", unit: "", label: "территории покрыто ливневой сетью", note: "износ сети — 45,5%" },
-  { value: "+72%", unit: "", label: "болезни системы кровообращения", note: "заболеваемость взрослых" },
-  { value: "265,4", unit: "на 1 000", label: "детский травматизм", note: "2025 год" },
-  { value: "29–30", unit: "детей", label: "средняя наполняемость классов", note: "риск перегрузки школ" },
+  { group: "health", value: "22,7%", unit: "", label: "жителей старше трудоспособного возраста", note: "+2,8 п.п. за период" },
+  { group: "health", value: "1 263→192", unit: "чел.", label: "сокращение естественного прироста", note: "2016–2024" },
+  { group: "health", value: "+72%", unit: "", label: "болезни системы кровообращения", note: "заболеваемость взрослых" },
+  { group: "health", value: "265,4", unit: "на 1 000", label: "детский травматизм", note: "2025 год" },
+  { group: "urban", value: "55%", unit: "", label: "территории покрыто ливневой сетью", note: "износ сети — 45,5%" },
+  { group: "urban", value: "29–30", unit: "детей", label: "средняя наполняемость классов", note: "риск перегрузки школ" },
+  { group: "ecology", value: "+2,8°C", unit: "", label: "рост среднегодовой температуры", note: "2016–2025" },
+  { group: "ecology", value: "104", unit: "мм/сутки", label: "экстремум осадков", note: "2023 год, режим ЧС" },
+];
+
+const balanceGroups = [
+  { id: "health", number: "01", label: "Здоровье" },
+  { id: "urban", number: "02", label: "Городская среда" },
+  { id: "ecology", number: "03", label: "Экология" },
 ];
 
 const projects = [
@@ -212,7 +218,7 @@ function Balance({mode,setMode}:{mode:BalanceMode;setMode:(x:BalanceMode)=>void}
   return <div className={`balance-layout ${mode}`}>
     <div className="balance-head"><div className="eyebrow">01 · ПОРТРЕТ ГОРОДА · 2016–2025</div><h2>Южно‑Сахалинск растёт.<br/><em>Теперь рост должен работать<br/>на здоровье людей.</em></h2></div>
     <div className="balance-toggle" role="tablist"><button className={mode==="strengths"?"active":""} onClick={()=>setMode("strengths")}><span>01</span>Положительные характеристики</button><button className={mode==="tensions"?"active warm":""} onClick={()=>setMode("tensions")}><span>02</span>Отрицательные характеристики</button></div>
-    <div className={`balance-grid ${mode}`}>{cards.map((c,i)=><article key={c.label}><span>{String(i+1).padStart(2,"0")}</span><b>{c.value} <small>{c.unit}</small></b><h3>{c.label}</h3><p>{c.note}</p></article>)}</div>
+    <div className={`balance-groups ${mode}`}>{balanceGroups.map(group=><section className={`balance-group group-${group.id}`} key={group.id}><header><span>{group.number}</span><b>{group.label}</b></header><div>{cards.filter(c=>c.group===group.id).map((c,i)=><article key={c.label}><span>{group.number}.{i+1}</span><b>{c.value} <small>{c.unit}</small></b><h3>{c.label}</h3><p>{c.note}</p></article>)}</div></section>)}</div>
     <div className={`balance-conclusion ${mode}`}><b>{mode==="strengths"?"МОЖНО НАЧИНАТЬ":"ПЕРВЫЕ ДЕЙСТВИЯ"}</b><span>{mode==="strengths"?"Город может уже сейчас запустить два первых проекта: программу снижения детского травматизма и «Зелёный хребет».":"Сначала — снизить детский травматизм и проверить трассу «Зелёного хребта» инженерными изысканиями."}</span></div>
   </div>;
 }

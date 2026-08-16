@@ -216,3 +216,26 @@
 /* Partner lockup is informational, not interactive. */
 .brand-lockup{cursor:default;user-select:none}
 .brand-lockup img{pointer-events:none;user-select:none}
+
+/* City portrait: keep positive/negative tabs, group the indicators inside each tab. */
+.balance-groups{grid-column:2;grid-row:2;align-self:stretch;min-height:0;display:grid;grid-template-columns:.9fr 1.35fr .9fr;gap:8px}
+.balance-group{min-width:0;display:grid;grid-template-rows:34px minmax(0,1fr);border:1px solid var(--line);background:rgba(9,40,41,.42)}
+.balance-group>header{display:flex;align-items:center;gap:10px;padding:0 11px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.025)}
+.balance-group>header span{font-size:7px;color:var(--muted)}
+.balance-group>header b{font-size:8px;letter-spacing:.1em;text-transform:uppercase}
+.balance-group>div{min-height:0;display:grid;gap:5px;padding:5px}
+.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div{grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr))}
+.balance-groups.strengths .group-urban>div,.balance-groups.tensions .group-health>div{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr))}
+.balance-group article{min-width:0;min-height:0;padding:11px;display:flex;flex-direction:column;background:rgba(14,49,50,.9);border-top:2px solid var(--green)}
+.balance-groups.tensions .balance-group article{border-top-color:var(--warm)}
+.balance-group article>span{font-size:6.5px;color:var(--green)}
+.balance-groups.tensions .balance-group article>span{color:var(--warm)}
+.balance-group article>b{font-size:clamp(20px,1.5vw,29px);line-height:1;letter-spacing:-.05em;margin-top:auto;padding-top:9px;white-space:nowrap}
+.balance-group article>b small{font-size:8px;letter-spacing:0;color:var(--muted)}
+.balance-group h3{font-size:8px;line-height:1.25;margin:8px 0 4px}
+.balance-group p{font-size:6.5px;line-height:1.38;color:var(--muted);margin:0}
+.balance-groups.strengths .balance-group>header b{color:var(--green)}
+.balance-groups.tensions .balance-group>header b{color:var(--warm)}
+@media(max-width:1200px){.balance-groups{grid-template-columns:.9fr 1.25fr .9fr}.balance-group article{padding:9px}.balance-group article>b{font-size:20px}.balance-group h3{font-size:7px}}
+@media(max-width:960px){.balance-groups{width:100%;margin-top:24px;grid-template-columns:1fr}.balance-group{min-height:240px}.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.balance-group article{min-height:125px}}
+@media(max-width:560px){.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div,.balance-groups.strengths .group-urban>div,.balance-groups.tensions .group-health>div{grid-template-columns:1fr}.balance-group{min-height:0}}
