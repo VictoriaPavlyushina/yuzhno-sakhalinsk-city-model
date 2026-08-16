@@ -48,7 +48,7 @@ const projects = [
     id: "ridge",
     no: "01",
     name: "Зелёный хребет",
-    type: "ФЛАГМАН · РЕКРЕАЦИЯ + ЗАЩИТА",
+    type: "РЕКРЕАЦИЯ + ЗАЩИТА",
     essence: "Маршрут, который одновременно связывает город со склонами, управляет водой и усиливает туристический продукт.",
     problem: "Связать город с восточными склонами и совместить маршрут с управлением стоком и природными рисками.",
     output: "12,51 км двух осей, входные узлы, водоотвод, переходы, лесовосстановление и туристический продукт.",
@@ -59,7 +59,7 @@ const projects = [
     id: "safe",
     no: "02",
     name: "Безопасный город для детей",
-    type: "ФЛАГМАН · ЗДОРОВЬЕ + СРЕДА",
+    type: "ЗДОРОВЬЕ + СРЕДА",
     essence: "От статистики травм — к конкретным изменениям дворов, школ, дорог и мест отдыха.",
     problem: "Почти каждый третий ребёнок получает травму, но город пока не видит адреса и обстоятельства случаев.",
     output: "Единый реестр, карта рисков, аудит среды и адресные изменения дворов, школ, дорог и зон спорта.",
@@ -234,7 +234,7 @@ function ProjectPortfolio({selected,setSelected,go}:{selected:typeof projects[nu
         onFocus={()=>setSelected(p.id)}
         onClick={()=>p.scene!==undefined?go(p.scene):setSelected(p.id)}
       >
-        <div className="tile-top"><span>{p.no}</span><small>{p.type}</small>{i<2&&<em>ФЛАГМАН</em>}</div>
+        <div className="tile-top"><span>{p.no}</span><small>{p.type}</small></div>
         <div className="tile-base"><h3>{p.name}</h3><p>{p.essence}</p></div>
         <div className="tile-more">
           <div><small>ЗАДАЧА</small><p>{p.problem}</p></div>
