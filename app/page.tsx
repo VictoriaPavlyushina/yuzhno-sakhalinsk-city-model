@@ -255,26 +255,30 @@ function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
 function ModelRidgeMap(){
   const ref=useRef<HTMLCanvasElement>(null);
   const stops=[
-    {x:"34%",y:"84%",img:"/ridge-stops/stop-1.jpg",name:"Видовая точка",note:"Южный вход и первый обзор города"},
+    {x:"28%",y:"82%",img:"/ridge-stops/stop-1.jpg",name:"Видовая точка",note:"Южный вход и первый обзор города"},
     {x:"35%",y:"68%",img:"/ridge-stops/stop-2.jpg",name:"Лесная тропа",note:"Маршрут под пологом леса"},
-    {x:"39%",y:"52%",img:"/ridge-stops/stop-3.jpg",name:"Переход через ручей",note:"Настил и защищённый водопропуск"},
-    {x:"42%",y:"36%",img:"/ridge-stops/stop-4.jpg",name:"Водный узел",note:"Ручей, водоотвод и место отдыха"},
-    {x:"46%",y:"18%",img:"/ridge-stops/stop-5.jpg",name:"Выход к городу",note:"Северный участок маршрута"},
+    {x:"40%",y:"53%",img:"/ridge-stops/stop-3.jpg",name:"Переход через ручей",note:"Настил и защищённый водопропуск"},
+    {x:"44%",y:"36%",img:"/ridge-stops/stop-4.jpg",name:"Водный узел",note:"Ручей, водоотвод и место отдыха"},
+    {x:"49%",y:"19%",img:"/ridge-stops/stop-5.jpg",name:"Выход на хребет",note:"Северный горный участок маршрута"},
   ];
   useEffect(()=>{
     const canvas=ref.current,ctx=canvas?.getContext("2d");if(!canvas||!ctx)return;
     let raf=0;
-    const project=([lon,lat]:number[])=>[.12+((lon-142.744)/.061)*.76,.07+((46.999-lat)/.09)*.86] as const;
-    const path=(coords:number[][])=>{ctx.beginPath();coords.map(project).forEach(([x,y],i)=>{const px=x*canvas.clientWidth,py=y*canvas.clientHeight;i?ctx.lineTo(px,py):ctx.moveTo(px,py)});};
+    const path=(coords:number[][])=>{ctx.beginPath();coords.forEach(([x,y],i)=>{const px=x*canvas.clientWidth,py=y*canvas.clientHeight;i?ctx.lineTo(px,py):ctx.moveTo(px,py)});};
+    const routeA=[[.18,.88],[.28,.82],[.35,.68],[.4,.53],[.44,.36],[.49,.19],[.57,.13]];
+    const routeC=[[.49,.19],[.61,.25],[.72,.34],[.83,.43],[.9,.55]];
     const draw=(now:number)=>{const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(rect.width*dpr)||canvas.height!==Math.round(rect.height*dpr)){canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
-      const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#0b3031");bg.addColorStop(.48,"#123d3b");bg.addColorStop(1,"#173f37");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
-      ctx.fillStyle="rgba(238,241,226,.035)";ctx.beginPath();ctx.moveTo(0,h*.08);ctx.lineTo(w*.42,h*.04);ctx.lineTo(w*.48,h*.95);ctx.lineTo(0,h);ctx.closePath();ctx.fill();
-      ctx.strokeStyle="rgba(216,235,218,.09)";ctx.lineWidth=.7;for(let i=0;i<22;i++){ctx.beginPath();for(let p=0;p<=1;p+=.025){const x=w*(.38+p*.7),y=h*(.02+i*.047+Math.sin(p*8+i*.55)*(.012+i*.0007));p?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
-      ctx.strokeStyle="rgba(226,238,226,.08)";for(let x=.05;x<.43;x+=.035){ctx.beginPath();ctx.moveTo(w*x,h*.08);ctx.lineTo(w*(x+.02),h*.94);ctx.stroke()}for(let y=.12;y<.9;y+=.055){ctx.beginPath();ctx.moveTo(w*.03,h*y);ctx.lineTo(w*.47,h*(y+.01*Math.sin(y*20)));ctx.stroke()}
-      ctx.strokeStyle="rgba(84,176,184,.28)";ctx.lineWidth=1.2;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(0,h*(.22+i*.14));ctx.bezierCurveTo(w*.28,h*(.18+i*.15),w*.5,h*(.3+i*.11),w,h*(.2+i*.14));ctx.stroke()}
-      path(axisA);ctx.strokeStyle="rgba(57,194,190,.18)";ctx.lineWidth=12;ctx.stroke();path(axisA);ctx.strokeStyle="#62d8d0";ctx.lineWidth=4;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor="#39c2be";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
-      path(axisC);ctx.strokeStyle="rgba(240,164,91,.2)";ctx.lineWidth=10;ctx.stroke();path(axisC);ctx.strokeStyle="#f0a45b";ctx.lineWidth=3.5;ctx.setLineDash([8,6]);ctx.lineDashOffset=-(now/70)%14;ctx.stroke();ctx.setLineDash([]);
-      ctx.fillStyle="rgba(243,241,231,.72)";ctx.font="600 9px Manrope, sans-serif";ctx.fillText("ГОРОД",w*.08,h*.12);ctx.fillStyle="#62d8d0";ctx.fillText("ОСЬ A · 8,68 КМ",w*.19,h*.93);ctx.fillStyle="#f0a45b";ctx.fillText("ОСЬ C · 3,83 КМ",w*.69,h*.2);
+      const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#0a2d30");bg.addColorStop(.4,"#123a38");bg.addColorStop(1,"#244b3d");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+      ctx.fillStyle="rgba(206,224,215,.055)";ctx.fillRect(0,0,w*.35,h);
+      ctx.strokeStyle="rgba(211,232,226,.13)";ctx.lineWidth=1;for(let x=.055;x<.34;x+=.045){ctx.beginPath();ctx.moveTo(w*x,h*.15);ctx.lineTo(w*x,h*.94);ctx.stroke()}for(let y=.2;y<.92;y+=.09){ctx.beginPath();ctx.moveTo(w*.025,h*y);ctx.lineTo(w*.35,h*y);ctx.stroke()}
+      ctx.fillStyle="rgba(228,238,229,.11)";for(let i=0;i<24;i++){const x=w*(.045+(i%6)*.045),y=h*(.24+Math.floor(i/6)*.15),bw=w*(.018+(i%3)*.004),bh=h*(.035+(i%4)*.012);ctx.fillRect(x,y,bw,bh);ctx.fillStyle="rgba(98,216,208,.16)";ctx.fillRect(x+bw*.2,y+bh*.2,bw*.18,bh*.16);ctx.fillStyle="rgba(228,238,229,.11)"}
+      ctx.strokeStyle="rgba(98,216,208,.32)";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w*.33,0);ctx.bezierCurveTo(w*.3,h*.27,w*.38,h*.55,w*.34,h);ctx.stroke();
+      const mountain=(base:number,peak:number,color:string)=>{ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(w*.36,h);ctx.lineTo(w*.48,h*base);ctx.lineTo(w*.57,h*peak);ctx.lineTo(w*.66,h*(base-.1));ctx.lineTo(w*.75,h*(peak+.02));ctx.lineTo(w*.86,h*(base-.08));ctx.lineTo(w,h*(peak+.08));ctx.lineTo(w,h);ctx.closePath();ctx.fill()};mountain(.62,.2,"rgba(56,105,76,.42)");mountain(.76,.38,"rgba(35,83,64,.72)");
+      ctx.strokeStyle="rgba(210,232,214,.13)";ctx.lineWidth=.8;for(let i=0;i<13;i++){ctx.beginPath();for(let p=0;p<=1;p+=.025){const x=w*(.4+p*.65),y=h*(.12+i*.055+Math.sin(p*10+i*.65)*.018);p?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
+      ctx.strokeStyle="rgba(114,187,160,.25)";for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(w*.42,h*(.68+i*.06));ctx.bezierCurveTo(w*.58,h*(.5+i*.07),w*.8,h*(.65+i*.05),w,h*(.46+i*.07));ctx.stroke()}
+      path(routeA);ctx.strokeStyle="rgba(57,194,190,.2)";ctx.lineWidth=13;ctx.stroke();path(routeA);ctx.strokeStyle="#62d8d0";ctx.lineWidth=4.5;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor="#39c2be";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
+      path(routeC);ctx.strokeStyle="rgba(240,164,91,.22)";ctx.lineWidth=11;ctx.stroke();path(routeC);ctx.strokeStyle="#f0a45b";ctx.lineWidth=3.5;ctx.setLineDash([8,6]);ctx.lineDashOffset=-(now/70)%14;ctx.stroke();ctx.setLineDash([]);
+      ctx.font="700 9px Manrope, sans-serif";ctx.fillStyle="rgba(243,241,231,.78)";ctx.fillText("ЮЖНО-САХАЛИНСК",w*.055,h*.14);ctx.fillStyle="rgba(160,211,173,.88)";ctx.fillText("ВОСТОЧНЫЕ СКЛОНЫ",w*.67,h*.12);ctx.font="600 7px Manrope, sans-serif";ctx.fillStyle="rgba(168,189,183,.76)";ctx.fillText("ГОРОД",w*.08,h*.96);ctx.fillText("ПРЕДГОРЬЕ",w*.38,h*.96);ctx.fillText("ХРЕБЕТ",w*.78,h*.96);ctx.fillStyle="#62d8d0";ctx.fillText("ОСЬ A · 8,68 КМ",w*.19,h*.9);ctx.fillStyle="#f0a45b";ctx.fillText("ОСЬ C · 3,83 КМ",w*.7,h*.61);
       raf=requestAnimationFrame(draw);
     };raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);
   },[]);
