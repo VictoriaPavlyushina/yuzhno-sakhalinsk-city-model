@@ -201,8 +201,6 @@ export default function Home(){
       {current.id==="next"&&<NextSteps go={go}/>} 
     </section>
 
-    <footer className="show-controls"><div className="progress"><span style={{width:`${((index+1)/scenes.length)*100}%`}}></span></div><button disabled={index===0} onClick={()=>go(index-1)}>←</button><div><b>{String(index+1).padStart(2,"0")} / {String(scenes.length).padStart(2,"0")}</b><span>{current.label}</span></div><button disabled={index===scenes.length-1} onClick={()=>go(index+1)}>→</button><small>СТРЕЛКИ · ПРОБЕЛ · F — FULLSCREEN</small></footer>
-
     {sourceOpen&&<SourceDrawer close={()=>setSourceOpen(false)}/>} 
   </main>;
 }
