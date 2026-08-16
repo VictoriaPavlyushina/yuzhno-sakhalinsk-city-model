@@ -253,3 +253,15 @@
 .balance-conclusion{width:min(390px,100%)}
 .balance-conclusion b{font-size:8px;letter-spacing:.12em}
 .balance-conclusion span{font-size:9.5px;line-height:1.52}
+
+/* Larger project-card typography, including hover details. */
+.projects-head>p{font-size:10px;line-height:1.5}
+.tile-top>span{font-size:9px}
+.tile-top>small,.tile-top>em{font-size:8px;line-height:1.3}
+.tile-base p{font-size:10px;line-height:1.48}
+.project-tile.flagship .tile-base p{font-size:12px;line-height:1.48}
+.tile-more small{font-size:8.5px}
+.tile-more p{font-size:10.5px;line-height:1.48}
+.project-tile.system .tile-more p{font-size:9.5px;line-height:1.45}
+.tile-more>span{font-size:8.5px}
+@media(max-width:1180px){.project-tile.system .tile-more p{font-size:8.5px}.tile-base p{font-size:9px}.project-tile.flagship .tile-base p{font-size:10.5px}}
