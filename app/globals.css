@@ -201,3 +201,14 @@
 .scenario-metrics>article>span{font-size:8px}.scenario-metrics>article>p{font-size:9px;line-height:1.42}.scenario-metrics>article>i{font-size:7.5px}
 .scenario-metrics .effect small{font-size:8px;line-height:1.35}
 .trail-scenarios-modal>footer b{font-size:8px}.trail-scenarios-modal>footer span{font-size:10px;line-height:1.48}.trail-scenarios-modal>footer small{font-size:8px;line-height:1.45}
+
+/* Full-width child safety proposal table */
+.child-detail.child-program .detail-title{left:4vw;right:4vw;top:2.2vh;width:auto;max-width:none;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:end}
+.child-detail.child-program .detail-title .eyebrow{margin:0 0 7px}.child-detail.child-program .detail-title h2{font-size:clamp(38px,3.4vw,58px);line-height:.9;white-space:nowrap}.child-detail.child-program .detail-title>p{width:360px;margin:0 0 4px;font-size:11px}
+.child-detail.child-program .detail-panel{left:3vw;right:3vw;top:15vh;bottom:2.5vh;width:auto;max-width:none;padding:17px 24px 18px}
+.child-detail.child-program .child-tabs{margin-bottom:13px}.child-detail.child-program .child-tabs button{font-size:8px;padding:8px 4px}
+.child-detail.child-program .child-scroll{max-height:none;overflow:visible;padding-right:0}
+.child-detail.child-program .proposal-hero{grid-template-columns:155px 1fr;margin-bottom:11px}.child-detail.child-program .proposal-hero span{font-size:8px}.child-detail.child-program .proposal-hero b{font-size:19px;line-height:1.25}
+.child-detail.child-program .proposal-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.child-detail.child-program .proposal-grid article{min-height:130px;padding:13px 15px}.child-detail.child-program .proposal-grid span{font-size:7.5px}.child-detail.child-program .proposal-grid b{font-size:17px;margin:10px 0 7px}.child-detail.child-program .proposal-grid p{font-size:9.5px;line-height:1.48}
+.child-detail.child-program .truth-note{display:grid;grid-template-columns:170px 1fr;gap:22px;align-items:center;margin-top:10px;padding:12px 15px;border:0;border-left:4px solid var(--warm);background:rgba(240,154,124,.08)}.child-detail.child-program .truth-note b{font-size:9px}.child-detail.child-program .truth-note span{font-size:14px;line-height:1.4;margin:0;color:var(--ink)}
+@media(max-width:1050px){.child-detail.child-program .detail-title{display:block}.child-detail.child-program .detail-title>p{display:none}.child-detail.child-program .detail-panel{top:16vh}.child-detail.child-program .proposal-grid p{font-size:8.5px}.child-detail.child-program .proposal-grid b{font-size:15px}}
