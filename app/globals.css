@@ -114,3 +114,15 @@
 @media(max-width:760px){.show-header{height:58px;grid-template-columns:auto minmax(0,1fr);gap:8px;padding:0 10px}.show-header .chapter-rail{height:100%;padding:0}.show-header .chapter-rail button{min-width:103px;height:32px}.show-header .chapter-step>i{margin:0 4px}.scene-wrap{inset:58px 0 0}}
 @media(max-width:900px){.city-crest{width:27px;height:34px}.atre-logo{width:56px;height:28px}}
 @media(max-width:560px){.city-crest{width:25px;height:31px}.atre-logo{width:48px;height:25px}}
+
+/* Cover: environment → health → seven city projects */
+.cover-orbit .orbit>.orbit-label{position:absolute;font-size:8px;letter-spacing:.14em;color:var(--muted);background:var(--bg);padding:5px 8px;left:49%;top:-11px}
+.cover-orbit .orbit.three:before{display:none}
+.project-node{--angle:0deg;--counter-angle:0deg;position:absolute;z-index:3;left:50%;top:50%;width:13px;height:13px;margin:-6.5px;border:2px solid rgba(8,36,37,.88);border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(57,194,190,.11),0 0 20px rgba(57,194,190,.6);transform:rotate(var(--angle)) translateX(min(10.66vw,153px)) rotate(var(--counter-angle));cursor:default;animation:nodePulse 2.8s ease-in-out infinite}
+.project-node small{position:absolute;inset:0;display:grid;place-items:center;font-size:5px;font-style:normal;font-weight:700;color:#062829;line-height:1}
+.project-node:after{content:attr(data-project);position:absolute;left:50%;bottom:19px;transform:translateX(-50%);width:max-content;max-width:130px;padding:5px 7px;background:#e9efe5;color:#123536;font-size:6px;letter-spacing:.04em;line-height:1.25;opacity:0;pointer-events:none;transition:.2s;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.project-node:hover:after{opacity:1}
+.project-node:nth-of-type(3n+2){background:var(--green)}.project-node:nth-of-type(3n){background:var(--warm)}
+.project-node.p1{--angle:0deg;--counter-angle:0deg}.project-node.p2{--angle:51.43deg;--counter-angle:-51.43deg;animation-delay:-.4s}.project-node.p3{--angle:102.86deg;--counter-angle:-102.86deg;animation-delay:-.8s}.project-node.p4{--angle:154.29deg;--counter-angle:-154.29deg;animation-delay:-1.2s}.project-node.p5{--angle:205.72deg;--counter-angle:-205.72deg;animation-delay:-1.6s}.project-node.p6{--angle:257.15deg;--counter-angle:-257.15deg;animation-delay:-2s}.project-node.p7{--angle:308.58deg;--counter-angle:-308.58deg;animation-delay:-2.4s}
+.orbit-core{overflow:visible}.orbit-core:before,.orbit-core:after{content:"";position:absolute;inset:-8%;border:1px solid rgba(57,194,190,.26);border-radius:50%;animation:corePulse 3.6s ease-out infinite;pointer-events:none}.orbit-core:after{animation-delay:-1.8s}.orbit-core b{font-size:64px}.orbit-core span{max-width:125px;font-size:8px;line-height:1.35;margin:10px auto 0}.orbit-core>small{display:block;margin-top:5px;font-size:6px;line-height:1.35;letter-spacing:.08em;color:var(--green);text-transform:uppercase}
+@keyframes nodePulse{0%,100%{scale:1}50%{scale:1.28}}@keyframes corePulse{0%{opacity:.6;transform:scale(.9)}100%{opacity:0;transform:scale(1.28)}}
