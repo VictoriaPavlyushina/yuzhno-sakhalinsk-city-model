@@ -186,3 +186,8 @@
 .trail-scenarios-modal>footer{display:grid;grid-template-columns:auto 1.45fr 1fr;gap:16px;align-items:start;margin-top:9px;padding:11px 13px;background:#e9efe5;color:#123536}.trail-scenarios-modal>footer b{font-size:6px;letter-spacing:.12em;color:#14888b}.trail-scenarios-modal>footer span{font-size:8px;line-height:1.4}.trail-scenarios-modal>footer small{font-size:6px;line-height:1.4;color:#60706d;border-left:1px solid #b8cbc5;padding-left:13px}
 @media(max-width:900px){.scenario-system{grid-template-columns:1fr}.scenario-spine{display:none}.trail-scenarios-modal{height:100%;padding:20px}.scenario-metrics{grid-template-columns:1fr 1fr}.scenario-metrics .effect{grid-column:1/-1}.trail-scenarios-modal>footer{grid-template-columns:1fr}.scenario-open{position:relative;right:auto;top:auto;margin-bottom:14px}.trail-scenarios-backdrop{position:fixed;padding:0}.trail-scenarios-modal>header h2{font-size:34px}}
 @media(max-width:560px){.season-grid,.scenario-metrics{grid-template-columns:1fr}.scenario-metrics .effect{grid-column:1;grid-template-columns:1fr}.scenario-metrics .effect>span{grid-column:1}.trail-scenarios-modal>header h2{font-size:30px}.trail-scenarios-modal{padding:16px}}
+
+/* Readable Green Ridge conclusions */
+.ridge-conclusion-grid span{font-size:7px;letter-spacing:.07em}
+.ridge-conclusion-grid p{font-size:8px;line-height:1.42;margin-top:9px}
+@media(max-width:1180px){.ridge-conclusion-grid span{font-size:6.4px}.ridge-conclusion-grid p{font-size:7.2px}}
