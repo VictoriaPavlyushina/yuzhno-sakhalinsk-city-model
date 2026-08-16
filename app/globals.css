@@ -138,3 +138,9 @@
 @media(max-width:560px){.balance-layout{padding:26px 18px 60px}.balance-head h2{font-size:40px}.balance-toggle{grid-template-columns:1fr}.balance-toggle button:first-child{border-right:0;border-bottom:1px solid var(--line)}.balance-grid{grid-template-columns:1fr}.balance-grid article{min-height:135px}}
 
 .project-tile.flagship .tile-more{grid-template-columns:repeat(2,1fr)}
+
+/* Five-project portfolio: two flagships + three systemic programs */
+.project-mosaic{grid-template-columns:repeat(12,minmax(0,1fr))}.project-tile{grid-column:span 4}.project-tile.flagship{grid-column:span 6}.project-tile.system .tile-base h3{font-size:clamp(18px,1.35vw,26px)}
+.project-tile.system .tile-more{padding:42px 18px 16px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;gap:12px}.project-tile.system .tile-more>div{margin:0;padding-top:9px}.project-tile.system .tile-more p{font-size:7px;line-height:1.45}.project-tile.system .tile-more>span{grid-column:1/-1;margin-top:0}
+.project-node.p1{--angle:0deg;--counter-angle:0deg}.project-node.p2{--angle:72deg;--counter-angle:-72deg}.project-node.p3{--angle:144deg;--counter-angle:-144deg}.project-node.p4{--angle:216deg;--counter-angle:-216deg}.project-node.p5{--angle:288deg;--counter-angle:-288deg}
+@media(max-width:760px){.project-mosaic{grid-template-columns:1fr}.project-tile,.project-tile.flagship{grid-column:1}.project-tile.system .tile-more{display:flex}}
