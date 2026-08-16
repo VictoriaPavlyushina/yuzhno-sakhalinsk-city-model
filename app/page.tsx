@@ -273,18 +273,20 @@ function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
 function ModelRidgeMap(){
   const ref=useRef<HTMLCanvasElement>(null);
   const stops=[
-    {x:"28%",y:"82%",img:"/ridge-stops/stop-1.jpg",name:"Видовая точка",note:"Южный вход и первый обзор города"},
-    {x:"35%",y:"68%",img:"/ridge-stops/stop-2.jpg",name:"Лесная тропа",note:"Маршрут под пологом леса"},
-    {x:"40%",y:"53%",img:"/ridge-stops/stop-3.jpg",name:"Переход через ручей",note:"Настил и защищённый водопропуск"},
-    {x:"44%",y:"36%",img:"/ridge-stops/stop-4.jpg",name:"Водный узел",note:"Ручей, водоотвод и место отдыха"},
-    {x:"49%",y:"19%",img:"/ridge-stops/stop-5.jpg",name:"Выход на хребет",note:"Северный горный участок маршрута"},
+    {x:"33.5%",y:"89.7%",img:"/ridge-stops/stop-1.jpg",name:"Видовая точка",note:"Южный вход и первый обзор города"},
+    {x:"45.5%",y:"73.9%",img:"/ridge-stops/stop-2.jpg",name:"Лесная тропа",note:"Маршрут под пологом леса"},
+    {x:"42.8%",y:"59.6%",img:"/ridge-stops/stop-3.jpg",name:"Переход через ручей",note:"Настил и защищённый водопропуск"},
+    {x:"49%",y:"45.3%",img:"/ridge-stops/stop-4.jpg",name:"Водный узел",note:"Ручей, водоотвод и место отдыха"},
+    {x:"24.5%",y:"17.1%",img:"/ridge-stops/stop-5.jpg",name:"Выход на хребет",note:"Северный горный участок маршрута"},
   ];
   useEffect(()=>{
     const canvas=ref.current,ctx=canvas?.getContext("2d");if(!canvas||!ctx)return;
     let raf=0;
     const path=(coords:number[][])=>{ctx.beginPath();coords.forEach(([x,y],i)=>{const px=x*canvas.clientWidth,py=y*canvas.clientHeight;i?ctx.lineTo(px,py):ctx.moveTo(px,py)});};
-    const routeA=[[.18,.88],[.28,.82],[.35,.68],[.4,.53],[.44,.36],[.49,.19],[.57,.13]];
-    const routeC=[[.49,.19],[.61,.25],[.72,.34],[.83,.43],[.9,.55]];
+    // Геометрия повторяет предварительную трассировку KML: ось A идёт вдоль
+    // восточной границы города и в северной части загибается обратно на запад.
+    const routeA=[[.236,.868],[.287,.879],[.335,.897],[.36,.898],[.388,.873],[.461,.825],[.455,.797],[.448,.739],[.46,.711],[.476,.69],[.469,.669],[.461,.651],[.431,.623],[.428,.596],[.432,.567],[.427,.551],[.42,.531],[.463,.507],[.523,.467],[.49,.453],[.438,.436],[.417,.383],[.39,.339],[.386,.328],[.367,.306],[.318,.282],[.317,.262],[.293,.233],[.251,.198],[.237,.137],[.212,.131],[.197,.128],[.184,.123]];
+    const routeC=[[.245,.171],[.361,.184],[.457,.23],[.507,.237],[.549,.247],[.711,.293],[.745,.332],[.796,.355],[.851,.384],[.875,.405],[.885,.414],[.897,.423]];
     const draw=(now:number)=>{const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(rect.width*dpr)||canvas.height!==Math.round(rect.height*dpr)){canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
       const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#0a2d30");bg.addColorStop(.4,"#123a38");bg.addColorStop(1,"#244b3d");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
       ctx.fillStyle="rgba(206,224,215,.055)";ctx.fillRect(0,0,w*.35,h);
