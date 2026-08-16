@@ -171,13 +171,16 @@ export default function Home(){
     <div className="noise"></div><div className="edge-shade"></div>
     <header className="show-header">
       <button className="brand brand-lockup" onClick={()=>go(0)} aria-label="Южно-Сахалинск, АСИ и АТРЭ — перейти в начало">
+        <img className="city-crest" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20Yuzhno-Sakhalinsk.svg" alt="Герб Южно-Сахалинска" />
         <strong className="city-brand">ЮЖНО-САХАЛИНСК</strong>
         <i className="partner-sep">×</i>
         <span className="asi-lockup" aria-label="Агентство стратегических инициатив">
           <span className="asi-mark" aria-hidden="true"><i></i><i></i><i></i></span><b>АСИ</b>
         </span>
         <i className="partner-sep">×</i>
-        <span className="atre-lockup" aria-label="Агентство трансформации и развития экономики"><span className="atre-a">А</span><b>АТРЭ</b></span>
+        <span className="atre-lockup" aria-label="Агентство трансформации и развития экономики">
+          <img className="atre-logo" src="https://agencytde.ru/assets/images/svg/logo-full.svg" alt="АТРЭ" />
+        </span>
       </button>
       <nav className="chapter-rail" aria-label="Сцены презентации">
         {scenes.map((s,i)=><div className="chapter-step" key={s.id}>
