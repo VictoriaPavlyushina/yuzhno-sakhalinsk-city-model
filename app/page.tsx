@@ -250,14 +250,45 @@ function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
   </div>;
 }
 
-function RidgeDetail({tab,setTab,axis,setAxis}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void}){
+function ModelRidgeMap(){
+  const ref=useRef<HTMLCanvasElement>(null);
+  const stops=[
+    {x:"34%",y:"84%",img:"/ridge-stops/stop-1.jpg",name:"Видовая точка",note:"Южный вход и первый обзор города"},
+    {x:"35%",y:"68%",img:"/ridge-stops/stop-2.jpg",name:"Лесная тропа",note:"Маршрут под пологом леса"},
+    {x:"39%",y:"52%",img:"/ridge-stops/stop-3.jpg",name:"Переход через ручей",note:"Настил и защищённый водопропуск"},
+    {x:"42%",y:"36%",img:"/ridge-stops/stop-4.jpg",name:"Водный узел",note:"Ручей, водоотвод и место отдыха"},
+    {x:"46%",y:"18%",img:"/ridge-stops/stop-5.jpg",name:"Выход к городу",note:"Северный участок маршрута"},
+  ];
+  useEffect(()=>{
+    const canvas=ref.current,ctx=canvas?.getContext("2d");if(!canvas||!ctx)return;
+    let raf=0;
+    const project=([lon,lat]:number[])=>[.12+((lon-142.744)/.061)*.76,.07+((46.999-lat)/.09)*.86] as const;
+    const path=(coords:number[][])=>{ctx.beginPath();coords.map(project).forEach(([x,y],i)=>{const px=x*canvas.clientWidth,py=y*canvas.clientHeight;i?ctx.lineTo(px,py):ctx.moveTo(px,py)});};
+    const draw=(now:number)=>{const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(rect.width*dpr)||canvas.height!==Math.round(rect.height*dpr)){canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
+      const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#0b3031");bg.addColorStop(.48,"#123d3b");bg.addColorStop(1,"#173f37");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+      ctx.fillStyle="rgba(238,241,226,.035)";ctx.beginPath();ctx.moveTo(0,h*.08);ctx.lineTo(w*.42,h*.04);ctx.lineTo(w*.48,h*.95);ctx.lineTo(0,h);ctx.closePath();ctx.fill();
+      ctx.strokeStyle="rgba(216,235,218,.09)";ctx.lineWidth=.7;for(let i=0;i<22;i++){ctx.beginPath();for(let p=0;p<=1;p+=.025){const x=w*(.38+p*.7),y=h*(.02+i*.047+Math.sin(p*8+i*.55)*(.012+i*.0007));p?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke()}
+      ctx.strokeStyle="rgba(226,238,226,.08)";for(let x=.05;x<.43;x+=.035){ctx.beginPath();ctx.moveTo(w*x,h*.08);ctx.lineTo(w*(x+.02),h*.94);ctx.stroke()}for(let y=.12;y<.9;y+=.055){ctx.beginPath();ctx.moveTo(w*.03,h*y);ctx.lineTo(w*.47,h*(y+.01*Math.sin(y*20)));ctx.stroke()}
+      ctx.strokeStyle="rgba(84,176,184,.28)";ctx.lineWidth=1.2;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(0,h*(.22+i*.14));ctx.bezierCurveTo(w*.28,h*(.18+i*.15),w*.5,h*(.3+i*.11),w,h*(.2+i*.14));ctx.stroke()}
+      path(axisA);ctx.strokeStyle="rgba(57,194,190,.18)";ctx.lineWidth=12;ctx.stroke();path(axisA);ctx.strokeStyle="#62d8d0";ctx.lineWidth=4;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor="#39c2be";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
+      path(axisC);ctx.strokeStyle="rgba(240,164,91,.2)";ctx.lineWidth=10;ctx.stroke();path(axisC);ctx.strokeStyle="#f0a45b";ctx.lineWidth=3.5;ctx.setLineDash([8,6]);ctx.lineDashOffset=-(now/70)%14;ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle="rgba(243,241,231,.72)";ctx.font="600 9px Manrope, sans-serif";ctx.fillText("ГОРОД",w*.08,h*.12);ctx.fillStyle="#62d8d0";ctx.fillText("ОСЬ A · 8,68 КМ",w*.19,h*.93);ctx.fillStyle="#f0a45b";ctx.fillText("ОСЬ C · 3,83 КМ",w*.69,h*.2);
+      raf=requestAnimationFrame(draw);
+    };raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);
+  },[]);
+  return <div className="model-ridge-map"><canvas ref={ref} className="model-map-canvas" aria-label="Модельная карта трассы Зелёного хребта"/><div className="model-map-key"><b>ЗЕЛЁНЫЙ ХРЕБЕТ</b><span>12,51 км · две связанные оси</span></div>{stops.map((s,i)=><button className={`model-stop stop-${i+1}`} style={{left:s.x,top:s.y}} key={s.name} aria-label={`${s.name}: ${s.note}`}><img src={s.img} alt=""/><span>{String(i+1).padStart(2,"0")}</span><div><img src={s.img} alt={s.name}/><b>{s.name}</b><small>{s.note}</small></div></button>)}</div>;
+}
+
+function RidgeDetail({tab,setTab}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void}){
+  const [mapMode,setMapMode]=useState<"model"|"yandex">("model");
   const yandexEmbed="https://yandex.ru/map-widget/v1/?um=constructor%3A64a6cacd374c5fc141358cf1d3def01f29173d8b31de32155eb089743299ad47&source=constructor";
   return <div className="detail-layout ridge-detail ridge-map-layout">
     <section className="ridge-map-shell" aria-label="Интерактивная карта Зелёного хребта">
-      <div className="ridge-map-frame"><iframe src={yandexEmbed} title="Зелёный хребет — интерактивная карта трассировки" loading="eager" allowFullScreen></iframe></div>
+      <div className="ridge-map-frame">{mapMode==="model"?<ModelRidgeMap/>:<iframe src={yandexEmbed} title="Зелёный хребет — интерактивная карта трассировки" loading="eager" allowFullScreen></iframe>}</div>
+      <div className="map-mode-switch" role="tablist" aria-label="Вид карты"><button className={mapMode==="model"?"active":""} onClick={()=>setMapMode("model")}>МОДЕЛЬНАЯ КАРТА</button><button className={mapMode==="yandex"?"active":""} onClick={()=>setMapMode("yandex")}>ЯНДЕКС КАРТА</button></div>
     </section>
     <div className="detail-panel ridge-info">
-      <div className="ridge-panel-title"><div className="eyebrow">04 · ФЛАГМАН 02</div><h2>Зелёный <em>хребет</em></h2><p>Природно‑рекреационный каркас, который связывает маршрут, воду, лес и экономику.</p><div className="axis-legend"><button className={axis==="all"?"active":""} onClick={()=>setAxis("all")}>ВСЯ СИСТЕМА</button><button className={axis==="a"?"active":""} onClick={()=>setAxis("a")}><i></i>ОСЬ A</button><button className={axis==="c"?"active orange":""} onClick={()=>setAxis("c")}><i></i>ОСЬ C</button></div></div>
+      <div className="ridge-panel-title"><div className="eyebrow">04 · ФЛАГМАН 02</div><h2>Зелёный <em>хребет</em></h2><p>Природно‑рекреационный каркас, который связывает маршрут, воду, лес и экономику.</p></div>
       <div className="detail-tabs four"><button className={tab==="role"?"active":""} onClick={()=>setTab("role")}>РОЛЬ</button><button className={tab==="route"?"active":""} onClick={()=>setTab("route")}>ТРАССА</button><button className={tab==="economy"?"active":""} onClick={()=>setTab("economy")}>ЭКОНОМИКА</button><button className={tab==="conditions"?"active":""} onClick={()=>setTab("conditions")}>УСЛОВИЯ</button></div>
       {tab==="role"&&<div className="ridge-role"><div className="mega"><b>4 функции</b><span>одного городского проекта</span></div><div className="role-grid"><article><span>01</span><b>Связность</b><p>Уюновка, парк Гагарина, Ботанический сад, площади Победы и Славы, улица Больничная.</p></article><article><span>02</span><b>Рекреация</b><p>Круглогодичная городская ось, треккинг, спорт, видовые и событийные сценарии.</p></article><article><span>03</span><b>Вода и склон</b><p>Локальный перехват стока, водоотвод, укреплённые переходы и противоэрозионные меры.</p></article><article><span>04</span><b>Экономика</b><p>Связный туристический продукт увеличивает время пребывания и спрос на городские услуги.</p></article></div></div>}
       {tab==="route"&&<div className="ridge-route"><div className="mega"><b>12,51 км</b><span>две оси по обновлённой трассировке</span></div><div className="axis-cards"><article><span>ОСЬ A · ГОРОДСКАЯ</span><b>8,68 км</b><p>21,69 тыс. м² покрытия · 289 опор света · 6,07 км свейлов · 10 запруд · 10 выявленных пересечений.</p></article><article className="orange"><span>ОСЬ C · ГРЕБНЕВАЯ</span><b>3,83 км</b><p>Грунтовая тропа · 77 водоотводов · 2 видовые площадки · спортивный и мониторинговый маршрут.</p></article></div><div className="capacity"><b>5 358 м³</b><span>эффективная инженерная ёмкость за дождь</span><em>Это локальная стабилизация, а не защита города от всего тайфунного стока.</em></div></div>}
