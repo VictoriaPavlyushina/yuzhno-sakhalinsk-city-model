@@ -104,17 +104,18 @@
 @media(max-width:1180px){.ridge-map-layout{grid-template-columns:minmax(0,1fr) minmax(390px,.86fr);padding-left:2vw;padding-right:2vw}.ridge-map-footer{grid-template-columns:1fr 1fr}.ridge-map-footer>a{display:none}.ridge-map-footer>div:nth-child(3){display:none}}
 @media(max-width:760px){.ridge-map-layout{display:block;height:auto;padding:20px 20px 100px;overflow:auto}.ridge-map-shell{height:620px}.ridge-map-layout .ridge-info{height:auto;margin-top:16px;overflow:visible}.ridge-map-footer{grid-template-columns:1fr 1fr}.ridge-map-head{align-items:flex-start}.ridge-map-head a{padding:8px}.ridge-map-frame iframe{position:absolute}}
 
-/* Logos and chapter navigation share the top line */
-.show-header{grid-template-columns:auto minmax(0,1fr);gap:24px}
+/* Logos, chapter navigation and downloads share the top line without overlap */
+.show-header{grid-template-columns:auto minmax(0,1fr) auto;gap:18px}
 .show-header .chapter-rail{position:static;z-index:auto;width:100%;height:100%;padding:0;transform:none;justify-content:flex-end;background:transparent;border:0;backdrop-filter:none;overflow-x:auto;scrollbar-width:none}
 .show-header .chapter-rail::-webkit-scrollbar{display:none}
 .show-header .chapter-rail button{min-width:112px;height:34px;padding:0 10px}
 .show-header .chapter-step>i{margin:0 5px}
+.show-header .header-downloads{position:static;justify-self:end;min-width:max-content}
 .scene-wrap{inset:70px 0 0}
 .city-crest{display:block;width:34px;height:42px;object-fit:contain;flex:none;filter:drop-shadow(0 2px 7px rgba(0,0,0,.28))}
 .atre-logo{display:block;width:70px;height:34px;object-fit:contain;flex:none;filter:grayscale(1) brightness(0) invert(1);opacity:.92}
-@media(max-width:1350px){.show-header{gap:14px;padding-left:18px;padding-right:18px}.show-header .chapter-rail{justify-content:flex-start}.show-header .chapter-rail button{min-width:104px}.show-header .chapter-rail b{font-size:6.2px}.brand-lockup{gap:8px}.brand-lockup>.city-brand{font-size:8px}.brand-lockup>.partner-sep{display:none}.brand-lockup>.asi-lockup>b,.brand-lockup>.atre-lockup>b{font-size:7px}.asi-mark{width:24px;height:22px}.atre-a{width:26px;height:26px;font-size:14px}}
-@media(max-width:760px){.show-header{height:58px;grid-template-columns:auto minmax(0,1fr);gap:8px;padding:0 10px}.show-header .chapter-rail{height:100%;padding:0}.show-header .chapter-rail button{min-width:103px;height:32px}.show-header .chapter-step>i{margin:0 4px}.scene-wrap{inset:58px 0 0}}
+@media(max-width:1350px){.show-header{gap:10px;padding-left:18px;padding-right:18px}.show-header .chapter-rail{justify-content:flex-start}.show-header .chapter-rail button{min-width:104px}.show-header .chapter-rail b{font-size:6.2px}.show-header .report-download span{display:none}.show-header .report-download{padding:0 8px}.show-header .report-download i{width:22px;height:22px}.brand-lockup{gap:8px}.brand-lockup>.city-brand{font-size:8px}.brand-lockup>.partner-sep{display:none}.brand-lockup>.asi-lockup>b,.brand-lockup>.atre-lockup>b{font-size:7px}.asi-mark{width:24px;height:22px}.atre-a{width:26px;height:26px;font-size:14px}}
+@media(max-width:760px){.show-header{height:58px;grid-template-columns:auto minmax(0,1fr) auto;gap:6px;padding:0 10px}.show-header .chapter-rail{height:100%;padding:0}.show-header .chapter-rail button{min-width:103px;height:32px}.show-header .chapter-step>i{margin:0 4px}.show-header .header-downloads{right:auto;top:auto}.scene-wrap{inset:58px 0 0}}
 @media(max-width:900px){.city-crest{width:27px;height:34px}.atre-logo{width:56px;height:28px}}
 @media(max-width:560px){.city-crest{width:25px;height:31px}.atre-logo{width:48px;height:25px}}
 
