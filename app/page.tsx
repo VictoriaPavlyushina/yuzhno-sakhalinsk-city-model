@@ -257,7 +257,6 @@ function RidgeDetail({tab,setTab,axis,setAxis}:{tab:RidgeTab;setTab:(x:RidgeTab)
     <section className="ridge-map-shell" aria-label="Интерактивная карта Зелёного хребта">
       <div className="ridge-map-head"><div><span>ИНТЕРАКТИВНАЯ КАРТА</span><b>Предварительная трассировка</b></div><a href={yandexMap} target="_blank" rel="noreferrer">ОТКРЫТЬ В ЯНДЕКС КАРТАХ ↗</a></div>
       <div className="ridge-map-frame"><iframe src={yandexEmbed} title="Зелёный хребет — интерактивная карта трассировки" loading="eager" allowFullScreen></iframe></div>
-      <div className="ridge-map-footer"><div><b>12,51 км</b><span>общая длина двух осей</span></div><div><b>2 оси</b><span>городская A и гребневая C</span></div><div><b>Масштабируйте карту</b><span>перетаскивайте и открывайте объекты</span></div><a href="/ridge-routes.png" target="_blank" rel="noreferrer">ИСХОДНАЯ СХЕМА ↗</a></div>
     </section>
     <div className="detail-panel ridge-info">
       <div className="ridge-panel-title"><div className="eyebrow">04 · ФЛАГМАН 02</div><h2>Зелёный <em>хребет</em></h2><p>Природно‑рекреационный каркас, который связывает маршрут, воду, лес и экономику.</p><div className="axis-legend"><button className={axis==="all"?"active":""} onClick={()=>setAxis("all")}>ВСЯ СИСТЕМА</button><button className={axis==="a"?"active":""} onClick={()=>setAxis("a")}><i></i>ОСЬ A</button><button className={axis==="c"?"active orange":""} onClick={()=>setAxis("c")}><i></i>ОСЬ C</button></div></div>
