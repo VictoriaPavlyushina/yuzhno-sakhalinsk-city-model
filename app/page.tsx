@@ -251,11 +251,9 @@ function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
 }
 
 function RidgeDetail({tab,setTab,axis,setAxis}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void}){
-  const yandexMap="https://yandex.ru/maps/80/yuzhno-sakhalinsk/?ll=142.784473%2C46.949535&mode=usermaps&source=constructorLink&um=constructor%3A64a6cacd374c5fc141358cf1d3def01f29173d8b31de32155eb089743299ad47&z=12";
   const yandexEmbed="https://yandex.ru/map-widget/v1/?um=constructor%3A64a6cacd374c5fc141358cf1d3def01f29173d8b31de32155eb089743299ad47&source=constructor";
   return <div className="detail-layout ridge-detail ridge-map-layout">
     <section className="ridge-map-shell" aria-label="Интерактивная карта Зелёного хребта">
-      <div className="ridge-map-head"><div><span>ИНТЕРАКТИВНАЯ КАРТА</span><b>Предварительная трассировка</b></div><a href={yandexMap} target="_blank" rel="noreferrer">ОТКРЫТЬ В ЯНДЕКС КАРТАХ ↗</a></div>
       <div className="ridge-map-frame"><iframe src={yandexEmbed} title="Зелёный хребет — интерактивная карта трассировки" loading="eager" allowFullScreen></iframe></div>
     </section>
     <div className="detail-panel ridge-info">
