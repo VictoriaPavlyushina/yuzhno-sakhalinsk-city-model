@@ -167,8 +167,8 @@ export default function Home(){
     <CityCanvas scene={current.id} project={selectedProject} axis={axis}/>
     <div className="noise"></div><div className="edge-shade"></div>
     <header className="show-header">
-      <button className="brand brand-lockup" onClick={()=>go(0)} aria-label="Южно-Сахалинск, АСИ и АТРЭ — перейти в начало">
-        <img className="city-crest" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20Yuzhno-Sakhalinsk.svg" alt="Герб Южно-Сахалинска" />
+      <div className="brand brand-lockup" aria-label="Южно-Сахалинск, АСИ и АТРЭ">
+        <img className="city-crest" src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Coat%20of%20Arms%20of%20Yuzhno-Sakhalinsk.svg" alt="Герб Южно-Сахалинска" draggable={false} />
         <strong className="city-brand">ЮЖНО-САХАЛИНСК</strong>
         <i className="partner-sep">×</i>
         <span className="asi-lockup" aria-label="Агентство стратегических инициатив">
@@ -176,9 +176,9 @@ export default function Home(){
         </span>
         <i className="partner-sep">×</i>
         <span className="atre-lockup" aria-label="Агентство трансформации и развития экономики">
-          <img className="atre-logo" src="https://agencytde.ru/assets/images/svg/logo-full.svg" alt="АТРЭ" />
+          <img className="atre-logo" src="https://agencytde.ru/assets/images/svg/logo-full.svg" alt="АТРЭ" draggable={false} />
         </span>
-      </button>
+      </div>
       <nav className="chapter-rail" aria-label="Сцены презентации">
         {scenes.map((s,i)=><div className="chapter-step" key={s.id}>
           <button className={i===index?"active":""} onClick={()=>go(i)} aria-current={i===index?"step":undefined}>

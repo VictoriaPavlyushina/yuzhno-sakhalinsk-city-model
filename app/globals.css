@@ -212,3 +212,7 @@
 .child-detail.child-program .proposal-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.child-detail.child-program .proposal-grid article{min-height:130px;padding:13px 15px}.child-detail.child-program .proposal-grid span{font-size:7.5px}.child-detail.child-program .proposal-grid b{font-size:17px;margin:10px 0 7px}.child-detail.child-program .proposal-grid p{font-size:9.5px;line-height:1.48}
 .child-detail.child-program .truth-note{display:grid;grid-template-columns:170px 1fr;gap:22px;align-items:center;margin-top:10px;padding:12px 15px;border:0;border-left:4px solid var(--warm);background:rgba(240,154,124,.08)}.child-detail.child-program .truth-note b{font-size:9px}.child-detail.child-program .truth-note span{font-size:14px;line-height:1.4;margin:0;color:var(--ink)}
 @media(max-width:1050px){.child-detail.child-program .detail-title{display:block}.child-detail.child-program .detail-title>p{display:none}.child-detail.child-program .detail-panel{top:16vh}.child-detail.child-program .proposal-grid p{font-size:8.5px}.child-detail.child-program .proposal-grid b{font-size:15px}}
+
+/* Partner lockup is informational, not interactive. */
+.brand-lockup{cursor:default;user-select:none}
+.brand-lockup img{pointer-events:none;user-select:none}
