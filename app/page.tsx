@@ -233,7 +233,6 @@ function ProjectPortfolio({selected,setSelected,go}:{selected:typeof projects[nu
         <div className="tile-more">
           <div><small>ЗАДАЧА</small><p>{p.problem}</p></div>
           <div><small>РЕЗУЛЬТАТ</small><p>{p.output}</p></div>
-          <div><small>ПЕРВЫЙ ШАГ</small><p>{p.next}</p></div>
           <span>{p.scene!==undefined?"ОТКРЫТЬ ПРОЕКТ →":"СИСТЕМНЫЙ ПРОЕКТ"}</span>
         </div>
       </button>)}
