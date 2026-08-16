@@ -28,7 +28,7 @@ const strengths = [
 
 const tensions = [
   { group: "health", value: "22,7%", unit: "", label: "жителей старше трудоспособного возраста", note: "+2,8 п.п. за период" },
-  { group: "health", value: "1 263→192", unit: "чел.", label: "сокращение естественного прироста", note: "2016–2024" },
+  { group: "health", value: "−85%", unit: "", label: "сокращение естественного прироста", note: "с 1 263 до 192 чел. · 2016–2024" },
   { group: "health", value: "+72%", unit: "", label: "болезни системы кровообращения", note: "заболеваемость взрослых" },
   { group: "health", value: "265,4", unit: "на 1 000", label: "детский травматизм", note: "2025 год" },
   { group: "urban", value: "55%", unit: "", label: "территории покрыто ливневой сетью", note: "износ сети — 45,5%" },
