@@ -13,7 +13,6 @@ const scenes = [
   { id: "projects", label: "Проекты" },
   { id: "child", label: "Детская безопасность" },
   { id: "ridge", label: "Зелёный хребет" },
-  { id: "next", label: "Следующие шаги" },
 ];
 
 const strengths = [
@@ -200,7 +199,6 @@ export default function Home(){
       {current.id==="projects"&&<ProjectPortfolio selected={selected} setSelected={setSelectedProject} go={go}/>} 
       {current.id==="child"&&<ChildDetail tab={childTab} setTab={setChildTab}/>} 
       {current.id==="ridge"&&<RidgeDetail tab={ridgeTab} setTab={setRidgeTab} axis={axis} setAxis={setAxis}/>} 
-      {current.id==="next"&&<NextSteps go={go}/>} 
     </section>
 
     {sourceOpen&&<SourceDrawer close={()=>setSourceOpen(false)}/>} 
