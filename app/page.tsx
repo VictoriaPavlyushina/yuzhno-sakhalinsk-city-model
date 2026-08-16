@@ -39,7 +39,7 @@ const tensions = [
 
 const balanceGroups = [
   { id: "health", number: "01", label: "Здоровье" },
-  { id: "urban", number: "02", label: "Городская среда" },
+  { id: "urban", number: "02", label: "Городская среда и экономика" },
   { id: "ecology", number: "03", label: "Экология" },
 ];
 
