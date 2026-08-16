@@ -263,6 +263,16 @@
 .cover-orbit .project-node.p4:after{right:18px;left:auto;bottom:15px;transform:none}
 .cover-orbit .project-node.p5:after{left:18px;bottom:15px;transform:none}
 
+/* Harmonized constellation: no conflicting rotation, one calm focal animation. */
+.cover-orbit .orbit,.cover-orbit .orbit.one,.cover-orbit .orbit.two,.cover-orbit .orbit.three{animation:none}
+.cover-orbit .orbit{border-color:rgba(106,203,193,.22)}
+.cover-orbit .orbit.two{border-color:rgba(159,204,159,.22)}
+.cover-orbit .orbit.three{border-color:rgba(240,154,124,.2)}
+.cover-orbit .orbit>.orbit-label{z-index:5;border:1px solid rgba(115,200,198,.22);font-weight:600}
+.cover-orbit .project-node{font-style:normal}
+.cover-orbit .project-node:after{font-style:normal;font-weight:600}
+.cover-orbit .orbit-core:before,.cover-orbit .orbit-core:after{animation-duration:5.5s}
+
 .balance-conclusion{width:min(390px,100%)}
 .balance-conclusion b{font-size:8px;letter-spacing:.12em}
 .balance-conclusion span{font-size:9.5px;line-height:1.52}
