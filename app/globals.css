@@ -295,7 +295,3 @@
 .project-tile.system .tile-more p{font-size:9.5px;line-height:1.45}
 .tile-more>span{font-size:8.5px}
 @media(max-width:1180px){.project-tile.system .tile-more p{font-size:8.5px}.tile-base p{font-size:9px}.project-tile.flagship .tile-base p{font-size:10.5px}}
-
-/* Losses tab: exactly the same scene bounds as its two neighbouring tabs. */
-.scene-wrap .child-detail.child-cost .detail-title{left:4vw!important;right:4vw!important;width:auto!important;max-width:none}
-.scene-wrap .child-detail.child-cost .detail-panel{left:3vw!important;right:3vw!important;width:auto!important;max-width:none;box-sizing:border-box}
