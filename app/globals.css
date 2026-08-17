@@ -219,7 +219,7 @@
 .child-detail.child-scale .detail-title .eyebrow,.child-detail.child-cost .detail-title .eyebrow{margin:0 0 7px}.child-detail.child-scale .detail-title h2,.child-detail.child-cost .detail-title h2{font-size:clamp(38px,3.4vw,58px);line-height:.9;white-space:nowrap}.child-detail.child-scale .detail-title>p,.child-detail.child-cost .detail-title>p{width:360px;margin:0 0 4px;font-size:11px}
 .child-detail.child-scale .detail-panel,.child-detail.child-cost .detail-panel{left:3vw;right:3vw;top:15vh;bottom:2.5vh;width:auto;max-width:none;padding:17px 24px 18px}
 .child-detail.child-scale .child-tabs,.child-detail.child-cost .child-tabs{margin-bottom:13px}.child-detail.child-scale .child-tabs button,.child-detail.child-cost .child-tabs button{font-size:8px;padding:8px 4px}
-.child-detail.child-scale .child-scroll{max-height:none;overflow:visible;padding-right:0}.child-detail.child-cost .child-scroll{max-height:calc(85vh - 80px);padding-right:10px}
+.child-detail.child-scale .child-scroll,.child-detail.child-cost .child-scroll{max-height:none;overflow:visible;padding-right:0}
 .child-detail.child-scale .section-lead>b{max-width:820px;font-size:22px}.child-detail.child-scale .section-lead>span{font-size:8px}
 .child-detail.child-scale .situation-metrics article{min-height:128px;padding:16px 18px}.child-detail.child-scale .situation-metrics b{font-size:34px}.child-detail.child-scale .situation-metrics span{font-size:9px;line-height:1.45}.child-detail.child-scale .situation-metrics em{font-size:9px}
 .child-detail.child-scale .trend-strip>div{min-height:88px;padding:13px 16px}.child-detail.child-scale .trend-strip b{font-size:22px}.child-detail.child-scale .trend-strip span,.child-detail.child-scale .trend-strip small{font-size:8px}
