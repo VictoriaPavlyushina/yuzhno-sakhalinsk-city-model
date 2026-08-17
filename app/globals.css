@@ -264,13 +264,20 @@
 .cover-orbit .project-node.p5:after{left:18px;bottom:15px;transform:none}
 
 /* Harmonized constellation: no conflicting rotation, one calm focal animation. */
-.cover-orbit .orbit,.cover-orbit .orbit.one,.cover-orbit .orbit.two,.cover-orbit .orbit.three{animation:none}
+.cover-orbit .orbit.one{animation:spin 32s linear infinite}
+.cover-orbit .orbit.two{animation:spin 26s linear infinite reverse}
+.cover-orbit .orbit.three{animation:spin 20s linear infinite}
 .cover-orbit .orbit{border-color:rgba(106,203,193,.22)}
 .cover-orbit .orbit.two{border-color:rgba(159,204,159,.22)}
 .cover-orbit .orbit.three{border-color:rgba(240,154,124,.2)}
 .cover-orbit .orbit>.orbit-label{z-index:5;border:1px solid rgba(115,200,198,.22);font-weight:600}
 .cover-orbit .project-node{font-style:normal}
-.cover-orbit .project-node:after{font-style:normal;font-weight:600}
+.cover-orbit .project-node:after{display:none}
+.cover-orbit .orbit.one>.orbit-label{animation:orbitLabelCounter 32s linear infinite}
+.cover-orbit .orbit.two>.orbit-label{animation:orbitLabelClockwise 26s linear infinite}
+.cover-orbit .orbit.three>.orbit-label,.cover-orbit .orbit.three .project-node small{animation:orbitLabelCounter 20s linear infinite}
+@keyframes orbitLabelCounter{to{transform:rotate(-360deg)}}
+@keyframes orbitLabelClockwise{to{transform:rotate(360deg)}}
 .cover-orbit .orbit-core:before,.cover-orbit .orbit-core:after{animation-duration:5.5s}
 
 .balance-conclusion{width:min(390px,100%)}
