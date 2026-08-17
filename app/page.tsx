@@ -247,7 +247,7 @@ function ProjectPortfolio({selected,setSelected,go}:{selected:typeof projects[nu
 }
 
 function ChildDetail({tab,setTab}:{tab:ChildTab;setTab:(x:ChildTab)=>void}){
-  return <div className={`detail-layout child-detail child-${tab}`}>
+  return <div className={`detail-layout child-detail child-${tab === "cost" ? "loss" : tab}`}>
     <div className="detail-title"><div className="eyebrow warm">03 · ФЛАГМАН 01</div><h2>Безопасный город <em>для детей</em></h2><p>Не медицинская кампания, а городская программа снижения числа первых травм.</p></div>
     <div className="detail-panel">
       <div className="detail-tabs child-tabs"><button className={tab==="scale"?"active":""} onClick={()=>setTab("scale")}>ТЕКУЩАЯ СИТУАЦИЯ</button><button className={tab==="cost"?"active":""} onClick={()=>setTab("cost")}>ТЕКУЩИЕ ПОТЕРИ</button><button className={tab==="program"?"active":""} onClick={()=>setTab("program")}>ПРОЕКТНЫЕ ПРЕДЛОЖЕНИЯ</button></div>

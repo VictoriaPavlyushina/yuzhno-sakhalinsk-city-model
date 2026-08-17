@@ -215,16 +215,16 @@
 @media(max-width:1050px){.child-detail.child-program .detail-title{display:block}.child-detail.child-program .detail-title>p{display:none}.child-detail.child-program .detail-panel{top:16vh}.child-detail.child-program .proposal-grid p{font-size:8.5px}.child-detail.child-program .proposal-grid b{font-size:15px}}
 
 /* Full-width child safety data tables: title remains above every tab. */
-.child-detail.child-scale .detail-title,.child-detail.child-cost .detail-title{left:4vw;right:4vw;top:2.2vh;width:auto;max-width:none;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:end}
-.child-detail.child-scale .detail-title .eyebrow,.child-detail.child-cost .detail-title .eyebrow{margin:0 0 7px}.child-detail.child-scale .detail-title h2,.child-detail.child-cost .detail-title h2{font-size:clamp(38px,3.4vw,58px);line-height:.9;white-space:nowrap}.child-detail.child-scale .detail-title>p,.child-detail.child-cost .detail-title>p{width:360px;margin:0 0 4px;font-size:11px}
-.child-detail.child-scale .detail-panel,.child-detail.child-cost .detail-panel{left:3vw;right:3vw;top:15vh;bottom:2.5vh;width:auto;max-width:none;padding:17px 24px 18px}
-.child-detail.child-scale .child-tabs,.child-detail.child-cost .child-tabs{margin-bottom:13px}.child-detail.child-scale .child-tabs button,.child-detail.child-cost .child-tabs button{font-size:8px;padding:8px 4px}
-.child-detail.child-scale .child-scroll,.child-detail.child-cost .child-scroll{max-height:none;overflow:visible;padding-right:0}
+.child-detail.child-scale .detail-title,.child-detail.child-loss .detail-title{left:4vw;right:4vw;top:2.2vh;width:auto;max-width:none;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:end}
+.child-detail.child-scale .detail-title .eyebrow,.child-detail.child-loss .detail-title .eyebrow{margin:0 0 7px}.child-detail.child-scale .detail-title h2,.child-detail.child-loss .detail-title h2{font-size:clamp(38px,3.4vw,58px);line-height:.9;white-space:nowrap}.child-detail.child-scale .detail-title>p,.child-detail.child-loss .detail-title>p{width:360px;margin:0 0 4px;font-size:11px}
+.child-detail.child-scale .detail-panel,.child-detail.child-loss .detail-panel{left:3vw;right:3vw;top:15vh;bottom:2.5vh;width:auto;max-width:none;padding:17px 24px 18px}
+.child-detail.child-scale .child-tabs,.child-detail.child-loss .child-tabs{margin-bottom:13px}.child-detail.child-scale .child-tabs button,.child-detail.child-loss .child-tabs button{font-size:8px;padding:8px 4px}
+.child-detail.child-scale .child-scroll,.child-detail.child-loss .child-scroll{max-height:none;overflow:visible;padding-right:0}
 .child-detail.child-scale .section-lead>b{max-width:820px;font-size:22px}.child-detail.child-scale .section-lead>span{font-size:8px}
 .child-detail.child-scale .situation-metrics article{min-height:128px;padding:16px 18px}.child-detail.child-scale .situation-metrics b{font-size:34px}.child-detail.child-scale .situation-metrics span{font-size:9px;line-height:1.45}.child-detail.child-scale .situation-metrics em{font-size:9px}
 .child-detail.child-scale .trend-strip>div{min-height:88px;padding:13px 16px}.child-detail.child-scale .trend-strip b{font-size:22px}.child-detail.child-scale .trend-strip span,.child-detail.child-scale .trend-strip small{font-size:8px}
 .child-detail.child-scale .injury-story>div{min-height:145px;padding:15px 18px}.child-detail.child-scale .injury-story b{font-size:24px}.child-detail.child-scale .injury-story span{font-size:9px;line-height:1.4}.child-detail.child-scale .injury-story p{font-size:9px;line-height:1.5}
-@media(max-width:1050px){.child-detail.child-scale .detail-title,.child-detail.child-cost .detail-title{display:block}.child-detail.child-scale .detail-title>p,.child-detail.child-cost .detail-title>p{display:none}.child-detail.child-scale .detail-panel,.child-detail.child-cost .detail-panel{top:16vh}.child-detail.child-scale .situation-metrics b{font-size:29px}}
+@media(max-width:1050px){.child-detail.child-scale .detail-title,.child-detail.child-loss .detail-title{display:block}.child-detail.child-scale .detail-title>p,.child-detail.child-loss .detail-title>p{display:none}.child-detail.child-scale .detail-panel,.child-detail.child-loss .detail-panel{top:16vh}.child-detail.child-scale .situation-metrics b{font-size:29px}}
 
 /* Partner lockup is informational, not interactive. */
 .brand-lockup{cursor:default;user-select:none}
