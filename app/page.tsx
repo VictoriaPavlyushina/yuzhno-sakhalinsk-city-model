@@ -296,21 +296,9 @@ function ModelRidgeMap(){
     const routeA=[[.400,.874],[.483,.784],[.522,.739],[.528,.708],[.519,.665],[.499,.660],[.501,.645],[.489,.619],[.509,.573],[.505,.530],[.520,.498],[.519,.465],[.508,.428],[.487,.350],[.489,.331],[.475,.302],[.447,.271],[.356,.217],[.280,.155],[.269,.135]];
     const routeC=[[.269,.135],[.407,.139],[.472,.152],[.526,.202],[.554,.208],[.577,.220],[.669,.267],[.688,.308],[.716,.333],[.747,.364],[.761,.386],[.766,.396],[.773,.405]];
     const draw=(now:number)=>{const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(rect.width*dpr)||canvas.height!==Math.round(rect.height*dpr)){canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
-      const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#092b2f");bg.addColorStop(.37,"#123536");bg.addColorStop(.38,"#193e38");bg.addColorStop(1,"#315440");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
-      // Реальная планировочная логика: городская сетка к западу, граница застройки
-      // вдоль восточного склона, затем предгорье и Сусунайский хребет.
-      ctx.fillStyle="rgba(226,236,232,.055)";ctx.fillRect(0,0,w*.37,h);
-      const road=(pts:number[][],major=false)=>{path(pts);ctx.strokeStyle=major?"rgba(231,240,236,.28)":"rgba(211,232,226,.14)";ctx.lineWidth=major?1.8:1;ctx.stroke()};
-      [.075,.145,.215,.285,.345].forEach((x,i)=>road([[x,.08],[x+(i%2?.008:-.004),.95]],i===2));
-      [.19,.31,.43,.56,.69,.82,.92].forEach((y,i)=>road([[.02,y],[.37,y+(i%2?.008:-.004)]],i===3));
-      road([[.035,.72],[.12,.68],[.21,.67],[.29,.61],[.37,.6]],true);
-      ctx.fillStyle="rgba(228,238,229,.105)";for(let row=0;row<6;row++)for(let col=0;col<5;col++){const x=.045+col*.065+(row%2)*.007,y=.22+row*.115,bw=.025+(col%2)*.008,bh=.038+(row%3)*.012;ctx.fillRect(w*x,h*y,w*bw,h*bh)}
-      // Реки Уюновка, Рогатка и Еланька помогают узнавать положение маршрута.
-      const river=(y:number,bend:number)=>{ctx.beginPath();ctx.moveTo(w*.02,h*y);ctx.bezierCurveTo(w*.18,h*(y-bend),w*.31,h*(y+bend),w*.48,h*(y-.02));ctx.strokeStyle="rgba(97,184,196,.42)";ctx.lineWidth=1.5;ctx.stroke()};river(.18,.025);river(.43,.035);river(.79,.03);
-      ctx.beginPath();ctx.moveTo(w*.365,0);ctx.bezierCurveTo(w*.34,h*.28,w*.405,h*.56,w*.375,h);ctx.strokeStyle="rgba(126,207,190,.5)";ctx.lineWidth=2.3;ctx.stroke();
-      const mountain=(base:number,peak:number,color:string)=>{ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(w*.38,h);ctx.lineTo(w*.48,h*base);ctx.lineTo(w*.57,h*peak);ctx.lineTo(w*.66,h*(base-.1));ctx.lineTo(w*.75,h*(peak+.02));ctx.lineTo(w*.86,h*(base-.08));ctx.lineTo(w,h*(peak+.08));ctx.lineTo(w,h);ctx.closePath();ctx.fill()};mountain(.7,.24,"rgba(61,108,78,.34)");mountain(.86,.43,"rgba(34,77,59,.66)");
-      ctx.strokeStyle="rgba(218,235,219,.16)";ctx.lineWidth=.9;for(let i=0;i<14;i++){ctx.beginPath();for(let p=0;p<=1;p+=.025){const x=w*(.4+p*.65),y=h*(.1+i*.057+Math.sin(p*9+i*.6)*.015);if(p){ctx.lineTo(x,y)}else{ctx.moveTo(x,y)}}ctx.stroke()}
-      const park=(x:number,y:number,r:number)=>{ctx.fillStyle="rgba(105,163,108,.2)";ctx.beginPath();ctx.arc(w*x,h*y,Math.min(w,h)*r,0,Math.PI*2);ctx.fill()};park(.31,.36,.06);park(.30,.58,.045);park(.28,.14,.04);
+      // Рельеф, долины рек и городская сетка теперь взяты с географической карты.
+      // Canvas остаётся отдельным интерактивным слоем: на нём только трассы и подписи.
+      const tint=ctx.createLinearGradient(0,0,w,0);tint.addColorStop(0,"rgba(4,29,31,.18)");tint.addColorStop(.36,"rgba(4,29,31,.05)");tint.addColorStop(1,"rgba(4,29,31,.20)");ctx.fillStyle=tint;ctx.fillRect(0,0,w,h);
       path(routeA);ctx.strokeStyle="rgba(57,194,190,.2)";ctx.lineWidth=13;ctx.stroke();path(routeA);ctx.strokeStyle="#62d8d0";ctx.lineWidth=4.5;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor="#39c2be";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
       path(routeC);ctx.strokeStyle="rgba(240,164,91,.22)";ctx.lineWidth=11;ctx.stroke();path(routeC);ctx.strokeStyle="#f0a45b";ctx.lineWidth=3.5;ctx.setLineDash([8,6]);ctx.lineDashOffset=-(now/70)%14;ctx.stroke();ctx.setLineDash([]);
       ctx.font="700 13px Manrope, sans-serif";ctx.fillStyle="rgba(243,241,231,.9)";ctx.fillText("ЮЖНО-САХАЛИНСК",w*.045,h*.105);ctx.fillStyle="rgba(170,216,179,.94)";ctx.fillText("СУСУНАЙСКИЙ ХРЕБЕТ",w*.67,h*.105);
@@ -319,7 +307,7 @@ function ModelRidgeMap(){
       raf=requestAnimationFrame(draw);
     };raf=requestAnimationFrame(draw);return()=>cancelAnimationFrame(raf);
   },[]);
-  return <div className="model-ridge-map"><canvas ref={ref} className="model-map-canvas" aria-label="Модельная карта трассы Зелёного хребта"/><div className="model-map-key"><b>ЗЕЛЁНЫЙ ХРЕБЕТ</b><span>12,51 км · две связанные оси</span></div>{stops.map((s,i)=><button className={`model-stop stop-${i+1}`} style={{left:s.x,top:s.y}} key={s.name} aria-label={`${s.name}: ${s.note}`}><img src={s.img} alt=""/><span>{String(i+1).padStart(2,"0")}</span><div><img src={s.img} alt={s.name}/><b>{s.name}</b><small>{s.note}</small></div></button>)}</div>;
+  return <div className="model-ridge-map"><img className="model-map-relief" src="/yuzhno-relief-map-v2.png" alt="" aria-hidden="true"/><canvas ref={ref} className="model-map-canvas" aria-label="Модельная карта трассы Зелёного хребта"/><div className="model-map-key"><b>ЗЕЛЁНЫЙ ХРЕБЕТ</b><span>12,51 км · две связанные оси</span></div>{stops.map((s,i)=><button className={`model-stop stop-${i+1}`} style={{left:s.x,top:s.y}} key={s.name} aria-label={`${s.name}: ${s.note}`}><img src={s.img} alt=""/><span>{String(i+1).padStart(2,"0")}</span><div><img src={s.img} alt={s.name}/><b>{s.name}</b><small>{s.note}</small></div></button>)}</div>;
 }
 
 function RidgeDetail({tab,setTab}:{tab:RidgeTab;setTab:(x:RidgeTab)=>void;axis:Axis;setAxis:(x:Axis)=>void}){
