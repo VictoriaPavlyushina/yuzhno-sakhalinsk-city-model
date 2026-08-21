@@ -253,31 +253,25 @@
 @media(max-width:960px){.balance-groups{width:100%;margin-top:24px;grid-template-columns:1fr}.balance-group{min-height:240px}.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none}.balance-group article{min-height:125px}}
 @media(max-width:560px){.balance-group>div,.balance-groups.strengths .group-health>div,.balance-groups.strengths .group-ecology>div,.balance-groups.tensions .group-urban>div,.balance-groups.tensions .group-ecology>div,.balance-groups.strengths .group-urban>div,.balance-groups.tensions .group-health>div{grid-template-columns:1fr}.balance-group{min-height:0}}
 
-/* Fixed project constellation: nodes stay on the project orbit and labels are always visible. */
-.cover-orbit .orbit.three{animation:none}
-.cover-orbit .project-node{animation:none}
-.cover-orbit .project-node:after{opacity:1;max-width:145px;padding:5px 7px;border:1px solid rgba(115,200,198,.34);background:rgba(8,36,37,.94);color:var(--ink);font-size:6.5px;line-height:1.25;box-shadow:0 8px 24px rgba(0,0,0,.18)}
-.cover-orbit .project-node.p1:after{left:20px;bottom:50%;transform:translateY(50%)}
-.cover-orbit .project-node.p2:after{left:18px;top:15px;bottom:auto;transform:none}
-.cover-orbit .project-node.p3:after{right:18px;left:auto;top:15px;bottom:auto;transform:none}
-.cover-orbit .project-node.p4:after{right:18px;left:auto;bottom:15px;transform:none}
-.cover-orbit .project-node.p5:after{left:18px;bottom:15px;transform:none}
-
-/* Harmonized constellation: no conflicting rotation, one calm focal animation. */
+/* Harmonized constellation: labels use inner tracks, project nodes use the outer track. */
 .cover-orbit .orbit.one{animation:spin 32s linear infinite}
 .cover-orbit .orbit.two{animation:spin 26s linear infinite reverse}
-.cover-orbit .orbit.three{animation:spin 20s linear infinite}
+.cover-orbit .orbit.three{animation:spin 24s linear infinite;background:repeating-conic-gradient(from -18deg,rgba(240,164,91,.10) 0 .65deg,transparent .65deg 72deg)}
 .cover-orbit .orbit{border-color:rgba(106,203,193,.22)}
 .cover-orbit .orbit.two{border-color:rgba(159,204,159,.22)}
 .cover-orbit .orbit.three{border-color:rgba(240,154,124,.2)}
 .cover-orbit .orbit>.orbit-label{z-index:5;border:1px solid rgba(115,200,198,.22);font-weight:600}
-.cover-orbit .project-node{font-style:normal}
-.cover-orbit .project-node:after{display:none}
+.cover-orbit .orbit.three>.orbit-label{left:50%;top:11%;padding:4px 7px;color:var(--warm);border-color:rgba(240,164,91,.38);background:rgba(8,36,37,.94);box-shadow:0 7px 22px rgba(0,0,0,.22);animation:projectLabelCounter 24s linear infinite}
+.cover-orbit .project-node{font-style:normal;animation:nodePulse 3.2s ease-in-out infinite}
+.cover-orbit .project-node.p2{animation-delay:-.64s}.cover-orbit .project-node.p3{animation-delay:-1.28s}.cover-orbit .project-node.p4{animation-delay:-1.92s}.cover-orbit .project-node.p5{animation-delay:-2.56s}
+.cover-orbit .project-node:after{display:block;content:"";inset:-7px;width:auto;height:auto;max-width:none;padding:0;border:1px solid rgba(115,200,198,.38);border-radius:50%;background:transparent;opacity:.42;transform:none;box-shadow:none;animation:satellitePing 3.2s ease-out infinite}
 .cover-orbit .orbit.one>.orbit-label{animation:orbitLabelCounter 32s linear infinite}
 .cover-orbit .orbit.two>.orbit-label{animation:orbitLabelClockwise 26s linear infinite}
-.cover-orbit .orbit.three>.orbit-label,.cover-orbit .orbit.three .project-node small{animation:orbitLabelCounter 20s linear infinite}
+.cover-orbit .orbit.three .project-node small{animation:orbitLabelCounter 24s linear infinite}
 @keyframes orbitLabelCounter{to{transform:rotate(-360deg)}}
 @keyframes orbitLabelClockwise{to{transform:rotate(360deg)}}
+@keyframes projectLabelCounter{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes satellitePing{0%,100%{opacity:.16;scale:.72}50%{opacity:.55;scale:1.08}}
 .cover-orbit .orbit-core:before,.cover-orbit .orbit-core:after{animation-duration:5.5s}
 
 .balance-conclusion{width:min(390px,100%)}
