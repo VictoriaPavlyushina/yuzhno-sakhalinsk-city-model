@@ -294,7 +294,7 @@ function ModelRidgeMap(){
     // Геометрия повторяет предварительную трассировку KML: ось A идёт вдоль
     // восточной границы города и в северной части загибается обратно на запад.
     const routeA=[[.400,.874],[.483,.784],[.522,.739],[.528,.708],[.519,.665],[.499,.660],[.501,.645],[.489,.619],[.509,.573],[.505,.530],[.520,.498],[.519,.465],[.508,.428],[.487,.350],[.489,.331],[.475,.302],[.447,.271],[.356,.217],[.280,.155],[.269,.135]];
-    const routeC=[[.407,.139],[.472,.152],[.526,.202],[.554,.208],[.577,.220],[.669,.267],[.688,.308],[.716,.333],[.747,.364],[.761,.386],[.766,.396],[.773,.405]];
+    const routeC=[[.269,.135],[.407,.139],[.472,.152],[.526,.202],[.554,.208],[.577,.220],[.669,.267],[.688,.308],[.716,.333],[.747,.364],[.761,.386],[.766,.396],[.773,.405]];
     const draw=(now:number)=>{const rect=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);if(canvas.width!==Math.round(rect.width*dpr)||canvas.height!==Math.round(rect.height*dpr)){canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr)}ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height;ctx.clearRect(0,0,w,h);
       const bg=ctx.createLinearGradient(0,0,w,0);bg.addColorStop(0,"#092b2f");bg.addColorStop(.37,"#123536");bg.addColorStop(.38,"#193e38");bg.addColorStop(1,"#315440");ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
       // Реальная планировочная логика: городская сетка к западу, граница застройки
@@ -312,7 +312,6 @@ function ModelRidgeMap(){
       ctx.strokeStyle="rgba(218,235,219,.16)";ctx.lineWidth=.9;for(let i=0;i<14;i++){ctx.beginPath();for(let p=0;p<=1;p+=.025){const x=w*(.4+p*.65),y=h*(.1+i*.057+Math.sin(p*9+i*.6)*.015);if(p){ctx.lineTo(x,y)}else{ctx.moveTo(x,y)}}ctx.stroke()}
       const park=(x:number,y:number,r:number)=>{ctx.fillStyle="rgba(105,163,108,.2)";ctx.beginPath();ctx.arc(w*x,h*y,Math.min(w,h)*r,0,Math.PI*2);ctx.fill()};park(.31,.36,.06);park(.30,.58,.045);park(.28,.14,.04);
       path(routeA);ctx.strokeStyle="rgba(57,194,190,.2)";ctx.lineWidth=13;ctx.stroke();path(routeA);ctx.strokeStyle="#62d8d0";ctx.lineWidth=4.5;ctx.lineCap="round";ctx.lineJoin="round";ctx.shadowColor="#39c2be";ctx.shadowBlur=12;ctx.stroke();ctx.shadowBlur=0;
-      path([[.269,.135],[.407,.139]]);ctx.strokeStyle="rgba(202,224,210,.72)";ctx.lineWidth=2;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
       path(routeC);ctx.strokeStyle="rgba(240,164,91,.22)";ctx.lineWidth=11;ctx.stroke();path(routeC);ctx.strokeStyle="#f0a45b";ctx.lineWidth=3.5;ctx.setLineDash([8,6]);ctx.lineDashOffset=-(now/70)%14;ctx.stroke();ctx.setLineDash([]);
       ctx.font="700 13px Manrope, sans-serif";ctx.fillStyle="rgba(243,241,231,.9)";ctx.fillText("ЮЖНО-САХАЛИНСК",w*.045,h*.105);ctx.fillStyle="rgba(170,216,179,.94)";ctx.fillText("СУСУНАЙСКИЙ ХРЕБЕТ",w*.67,h*.105);
       ctx.font="600 10px Manrope, sans-serif";ctx.fillStyle="rgba(205,220,215,.8)";ctx.fillText("просп. Мира",w*.19,h*.955);ctx.fillText("ул. Горького",w*.285,h*.955);ctx.fillText("просп. Победы",w*.05,h*.55);ctx.fillStyle="rgba(133,202,211,.88)";ctx.fillText("р. Уюновка",w*.08,h*.17);ctx.fillText("р. Рогатка",w*.16,h*.42);ctx.fillText("р. Еланька",w*.18,h*.78);
